@@ -66,6 +66,12 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="KeyboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KeyboardForm.Designer.cs">
+      <DependentUpon>KeyboardForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -73,6 +79,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KeyboardForm.resx">
+      <DependentUpon>KeyboardForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
