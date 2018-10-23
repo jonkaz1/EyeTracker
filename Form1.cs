@@ -20,6 +20,7 @@ namespace EyeTracker
         List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
         bool fYouVariable = false;          //Check if next inputs are for commands
+        int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 30;        //variables to store eye blinking time
         KeyboardForm keyboardForm = new KeyboardForm();
 
 
@@ -101,7 +102,7 @@ namespace EyeTracker
                 dateB2 = DateTime.Now;
                 var x = dateB2 - dateB1;
                 //if (x.Ticks > 3500000)
-                if (x.Ticks > 0)
+                if (x.Ticks > BothEyeBlinkTime)
                 {
                     
                     inputs.Add(0);
@@ -138,7 +139,7 @@ namespace EyeTracker
                 dateL2 = DateTime.Now;
                 var x = dateL2 - dateL1;
                 //if (x.Ticks > 1000000)
-                if (x.Ticks > 0)
+                if (x.Ticks > leftEyeBlinkTime)
                     inputs.Add(1);
                 //setText("L" + x.Ticks);
                 leftEyeClosed = false;
@@ -164,7 +165,7 @@ namespace EyeTracker
                 dateR2 = DateTime.Now;
                 var x = dateR2 - dateR1;
                 //if (x.Ticks > 1000000)
-                if (x.Ticks > 0)
+                if (x.Ticks > rightEyeBlinkTime)
                     inputs.Add(2);
                     //setText("R" + x.Ticks);
                 rightEyeClosed = false;
@@ -194,17 +195,20 @@ namespace EyeTracker
         }
 
 
+        //Because program always waits for command input, this method isn't needed and only calls for other method.
+        //If end program doesn't change please remove this method and change all calls to this method to "CkeckCommand();
         /// <summary>
         /// Checks randoms inputs for specific command in order to allow use of all commands
         /// </summary>
         private void CheckInputs()
         {
-            if (inputs[0] == commands[0][0] && inputs[1] == commands[0][1] && inputs[2] == commands[0][2])
-            {
-                fYouVariable = true;
-                setText("Waiting for command");
-            }
-            inputs.RemoveAll(x => x < 3);
+            CheckCommand();
+            //if (inputs[0] == commands[0][0] && inputs[1] == commands[0][1] && inputs[2] == commands[0][2])
+            //{
+            //    fYouVariable = true;
+            //    setText("Waiting for command");
+            //}
+            //inputs.RemoveAll(x => x < 3);
         }
 
 
