@@ -33,11 +33,11 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.keybindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutEyeTrackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.keybindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,6 +56,7 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // menuStrip1
             // 
@@ -84,6 +85,19 @@
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.settingsToolStripMenuItem.Text = "Tools";
             // 
+            // keybindingsToolStripMenuItem
+            // 
+            this.keybindingsToolStripMenuItem.Name = "keybindingsToolStripMenuItem";
+            this.keybindingsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.keybindingsToolStripMenuItem.Text = "Keybindings";
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -96,27 +110,14 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.aboutToolStripMenuItem.Text = "View Help";
             // 
             // aboutEyeTrackerToolStripMenuItem
             // 
             this.aboutEyeTrackerToolStripMenuItem.Name = "aboutEyeTrackerToolStripMenuItem";
-            this.aboutEyeTrackerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutEyeTrackerToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.aboutEyeTrackerToolStripMenuItem.Text = "About EyeTracker";
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.optionsToolStripMenuItem.Text = "Options";
-            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
-            // 
-            // keybindingsToolStripMenuItem
-            // 
-            this.keybindingsToolStripMenuItem.Name = "keybindingsToolStripMenuItem";
-            this.keybindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.keybindingsToolStripMenuItem.Text = "Keybindings";
             // 
             // Form1
             // 
