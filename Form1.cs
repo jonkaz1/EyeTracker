@@ -22,8 +22,11 @@ namespace EyeTracker
         bool fYouVariable = false;          //Check if next inputs are for commands
         int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 30;        //variables to store eye blinking time
         KeyboardForm keyboardForm = new KeyboardForm();
+        SettingsForm settingsForm = new SettingsForm();
+
 
         //start of import for gaze postion
+        bool isGazeAutoStart = false;
         int posX = 0, posY = 0;                                         //Eye gaze x and y  coordinates
         static Host host = new Host();                                  //changed from var to Host
         GazePointDataStream gazePointDataStream = host.Streams.CreateGazePointDataStream(); //changed from var to GazePointDataStream
@@ -43,7 +46,14 @@ namespace EyeTracker
         public Form1()
         {
 
-            InitializeComponent(); //what is this? what does it do?
+            InitializeComponent();
+            isGazeAutoStart = settingsForm.isGazeOn;
+
+            if (isGazeAutoStart)
+            {
+                gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => textBox1.Text = String.Format("X: {0} Y:{1}", gazePointX, gazePointY));
+                gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; Cursor.Position = new Point(posX, posY); });
+            }
 
             List<int> command = new List<int>();
             command.Add(1);
@@ -53,7 +63,7 @@ namespace EyeTracker
             commands.Add(command);
 
             var positionss = host.Streams.CreateEyePositionStream();
-           // var ts = new Thread(() => waitingForEyeInput(positionss));
+            // var ts = new Thread(() => waitingForEyeInput(positionss));
             //ts.Start();
             waitingForEyeInput(positionss);
 
@@ -62,8 +72,7 @@ namespace EyeTracker
         private void button1_Click(object sender, EventArgs e)
         {
             //Patikrinti ar čia persimeta pelė į vietą kurią žiūri ir ar sukasi ciklas ar tiesiog 1 kartą tik paspaudus mygtuką
-            gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => textBox1.Text = String.Format("X: {0} Y:{1}", gazePointX, gazePointY));
-            gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; Cursor.Position = new Point(posX, posY); });
+            isGazeAutoStart = true;
             //setText("1"); //just to test
         }
 
@@ -107,7 +116,7 @@ namespace EyeTracker
         private void BothEyeClosed(bool eye, double data)
         {
             //If left eye wasn't closed before do ... else if was closed and now is open
-            if (!bothEyeClosed && !eye )
+            if (!bothEyeClosed && !eye)
             {
                 dateB1 = DateTime.Now;
                 bothEyeClosed = true;
@@ -121,7 +130,7 @@ namespace EyeTracker
                 //if (x.Ticks > 3500000)
                 if (x.Ticks > BothEyeBlinkTime)
                 {
-                    
+
                     inputs.Add(0);
                     //If we don't expect commands THEN check random inputs for specific line ELSE check if given inputs matches one of commands
                     if (fYouVariable != true)
@@ -129,7 +138,7 @@ namespace EyeTracker
                     else
                         CheckCommand();
                 }
-               
+
                 bothEyeClosed = false;
                 leftEyeClosed = false;
                 rightEyeClosed = false;
@@ -184,7 +193,7 @@ namespace EyeTracker
                 //if (x.Ticks > 1000000)
                 if (x.Ticks > rightEyeBlinkTime)
                     inputs.Add(2);
-                    //setText("R" + x.Ticks);
+                //setText("R" + x.Ticks);
                 rightEyeClosed = false;
             }
         }
@@ -203,8 +212,8 @@ namespace EyeTracker
                 fYouVariable = false;
                 if (Application.OpenForms["KeyboardForm"] == null)
                     setText("0");
-                    //this.Close();
-                    //keyboardForm.Show();
+                //this.Close();
+                //keyboardForm.Show();
                 else
                     keyboardForm.Close();
             }
@@ -212,6 +221,11 @@ namespace EyeTracker
             {
                 fYouVariable = false;
                 setText("1");
+            }
+            else if (inputs[0] == commands[0][1])
+            {
+                fYouVariable = false;
+                setText("2");
             }
             else inputs.RemoveAll(x => x < 3);
         }
@@ -275,7 +289,7 @@ namespace EyeTracker
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            settingsForm.Show();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

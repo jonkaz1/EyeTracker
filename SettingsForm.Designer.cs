@@ -1,6 +1,6 @@
 ﻿namespace EyeTracker
 {
-    partial class Form2
+    partial class SettingsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -47,12 +47,13 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(486, 14);
+            this.checkBox1.Location = new System.Drawing.Point(460, 14);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(80, 17);
+            this.checkBox1.Size = new System.Drawing.Size(189, 17);
             this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "checkBox1";
+            this.checkBox1.Text = "Program will not start with windows";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // label2
             // 
@@ -67,14 +68,15 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(486, 41);
+            this.checkBox2.Location = new System.Drawing.Point(460, 41);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(80, 17);
+            this.checkBox2.Size = new System.Drawing.Size(130, 17);
             this.checkBox2.TabIndex = 3;
-            this.checkBox2.Text = "checkBox2";
+            this.checkBox2.Text = "Mouse controls cursor";
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
-            // Form2
+            // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -84,7 +86,7 @@
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "Form2";
+            this.Name = "SettingsForm";
             this.Text = "Options";
             this.ResumeLayout(false);
             this.PerformLayout();
