@@ -16,13 +16,14 @@ namespace EyeTracker
     {
         delegate void StringArgReturningVoidDelegate(string text);
         DateTime dateL1, dateL2, dateR1, dateR2, dateB1, dateB2;          //variables to track dates of left/right/both last opened/closed eye
-        List<List<int>> commands = new List<List<int>>();   //0 - Both are closed;   1- Left is closed;    2 - Right is closed
+        List<int> commands = new List<int>();   //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
         bool fYouVariable = false;          //Check if next inputs are for commands
         int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 30;        //variables to store eye blinking time
         KeyboardForm keyboardForm = new KeyboardForm();
         SettingsForm settingsForm = new SettingsForm();
+        KeybindingsForm keybindingsForm;
 
 
         //start of import for gaze postion
@@ -47,6 +48,8 @@ namespace EyeTracker
         {
 
             InitializeComponent();
+
+            keybindingsForm = new KeybindingsForm(this);
             isGazeAutoStart = settingsForm.isGazeOn;
 
             if (isGazeAutoStart)
@@ -55,12 +58,15 @@ namespace EyeTracker
                 gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; Cursor.Position = new Point(posX, posY); });
             }
 
-            List<int> command = new List<int>();
-            command.Add(1);
-            command.Add(1);
-            command.Add(0);
-            commands.Add(command);
-            commands.Add(command);
+
+            commands.Add(110);
+            commands.Add(010);
+            commands.Add(000);
+            commands.Add(110);
+            commands.Add(220);
+            commands.Add(120);
+            commands.Add(210);
+
 
             var positionss = host.Streams.CreateEyePositionStream();
             // var ts = new Thread(() => waitingForEyeInput(positionss));
@@ -105,6 +111,7 @@ namespace EyeTracker
         }
 
 
+
         #region left/right/both closed eye time calculator
 
 
@@ -133,10 +140,10 @@ namespace EyeTracker
 
                     inputs.Add(0);
                     //If we don't expect commands THEN check random inputs for specific line ELSE check if given inputs matches one of commands
-                    if (fYouVariable != true)
+                    //if (fYouVariable != true)
                         CheckInputs();
-                    else
-                        CheckCommand();
+                    //else
+                    //    CheckCommand();
                 }
 
                 bothEyeClosed = false;
@@ -204,9 +211,9 @@ namespace EyeTracker
         /// <summary>
         /// Checks inputs for specific commands TO DO STUFF
         /// </summary>
-        private void CheckCommand()
+        private void CheckCommand(int c)
         {
-            if (inputs[0] == commands[1][0] && inputs[1] == commands[1][1] && inputs[2] == commands[1][2])
+            if (c.Equals(commands[0]))
             {
                 //setText("OK");
                 fYouVariable = false;
@@ -216,29 +223,83 @@ namespace EyeTracker
                 //keyboardForm.Show();
                 else
                     keyboardForm.Close();
+                inputs.RemoveAll(y => y < 3);
+                return;
             }
-            else if (inputs[0] == commands[1][0])
+
+            if (c.Equals(commands[1]))
             {
-                fYouVariable = false;
-                setText("1");
+                SendKeys.Send("%{TAB}");
+                //System.Diagnostics.Process process = new System.Diagnostics.Process();
+                //System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                //startInfo.FileName = "cmd.exe";
+                //startInfo.Arguments = "alt+tab";
+                //process.StartInfo = startInfo;
+                //process.Start();
+
+                inputs.RemoveAll(y => y < 3);
+                return;
             }
-            else if (inputs[0] == commands[0][1])
+
+            if (c.Equals(commands[2]))
             {
-                fYouVariable = false;
-                setText("2");
+                SendKeys.Send("+%");
+
+                inputs.RemoveAll(y => y < 3);
+                return;
             }
-            else inputs.RemoveAll(x => x < 3);
+
+            if (c.Equals(commands[3]))
+            {
+                SendKeys.Send("%{LEFT}");
+
+                inputs.RemoveAll(y => y < 3);
+                return;
+            }
+
+            if (c.Equals(commands[4]))
+            {
+                SendKeys.Send("%{RIGHT}");
+
+                inputs.RemoveAll(y => y < 3);
+                return;
+            }
+
+            if (c.Equals(commands[5]))
+            {
+                SendKeys.Send("^{C}");
+
+                inputs.RemoveAll(y => y < 3);
+                return;
+            }
+
+            if (c.Equals(commands[6]))
+            {
+                SendKeys.Send("^{P}");
+
+                inputs.RemoveAll(y => y < 3);
+                return;
+            }
         }
 
 
-        //Because program always waits for command input, this method isn't needed and only calls for other method.
-        //If end program doesn't change please remove this method and change all calls to this method to "CkeckCommand();
+        //To receive command from others Forms
+        public void SendCommand(int command)
+        {
+            CheckCommand(command);
+        }
+
+
+
         /// <summary>
         /// Checks randoms inputs for specific command in order to allow use of all commands
         /// </summary>
         private void CheckInputs()
         {
-            CheckCommand();
+            int x = inputs.Count;
+            int c = inputs[x - 3] * 100 + inputs[x - 2] * 10 + inputs[x - 1];
+            CheckCommand(c);
             //if (inputs[0] == commands[0][0] && inputs[1] == commands[0][1] && inputs[2] == commands[0][2])
             //{
             //    fYouVariable = true;
@@ -285,12 +346,19 @@ namespace EyeTracker
                 Console.WriteLine(text);
             }
         }
+        
+
+        private void keybindingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {            
+            keybindingsForm.Show();
+        }
 
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             settingsForm.Show();
         }
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
