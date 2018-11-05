@@ -5,3 +5,5 @@ Atgal,110;
 Pirmyn,220;
 Kopijuoti,120;
 Iklijuoti,210;
+LeftClick,100;
+RightClick,200;

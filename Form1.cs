@@ -54,18 +54,21 @@ namespace EyeTracker
 
             if (isGazeAutoStart)
             {
-                gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => textBox1.Text = String.Format("X: {0} Y:{1}", gazePointX, gazePointY));
-                gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; Cursor.Position = new Point(posX, posY); });
+                CursorGaze();
+                //gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => textBox1.Text = String.Format("X: {0} Y:{1}", gazePointX, gazePointY));
+                //gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; Cursor.Position = new Point(posX, posY); });
             }
 
 
-            commands.Add(110);
+            commands.Add(110); 
             commands.Add(010);
             commands.Add(000);
             commands.Add(110);
             commands.Add(220);
             commands.Add(120);
             commands.Add(210);
+            commands.Add(100); //Left click
+            commands.Add(200); //Right click
 
 
             var positionss = host.Streams.CreateEyePositionStream();
@@ -78,7 +81,7 @@ namespace EyeTracker
         private void button1_Click(object sender, EventArgs e)
         {
             //Patikrinti ar čia persimeta pelė į vietą kurią žiūri ir ar sukasi ciklas ar tiesiog 1 kartą tik paspaudus mygtuką
-            isGazeAutoStart = true;
+            CursorGaze();
             //setText("1"); //just to test
         }
 
@@ -141,6 +144,7 @@ namespace EyeTracker
                     inputs.Add(0);
                     //If we don't expect commands THEN check random inputs for specific line ELSE check if given inputs matches one of commands
                     //if (fYouVariable != true)
+                    if (x.Ticks > BothEyeBlinkTime*1.5)
                         CheckInputs();
                     //else
                     //    CheckCommand();
@@ -281,6 +285,24 @@ namespace EyeTracker
                 inputs.RemoveAll(y => y < 3);
                 return;
             }
+
+            if (c.Equals(commands[7]))
+            {
+                setText("Left mouse click");
+                LeftClick(Cursor.Position.X, Cursor.Position.Y);
+
+                inputs.RemoveAll(y => y < 3);
+                return;
+            }
+
+            if (c.Equals(commands[8]))
+            {
+                setText("Right mouse click");
+                RightClick(Cursor.Position.X, Cursor.Position.Y);
+
+                inputs.RemoveAll(y => y < 3);
+                return;
+            }
         }
 
 
@@ -298,6 +320,10 @@ namespace EyeTracker
         private void CheckInputs()
         {
             int x = inputs.Count;
+            if (x < 3)
+            {
+                return;
+            }
             int c = inputs[x - 3] * 100 + inputs[x - 2] * 10 + inputs[x - 1];
             CheckCommand(c);
             //if (inputs[0] == commands[0][0] && inputs[1] == commands[0][1] && inputs[2] == commands[0][2])
@@ -331,15 +357,13 @@ namespace EyeTracker
             {
                 if (text == "0")
                     keyboardForm.Show();
-                else if (text == "1")
+                else if (text == "Left mouse click")
                 {
                     this.textBox1.Text = "Left mouse click";
-                    LeftClick(Cursor.Position.X, Cursor.Position.Y);
                 }
-                else if (text == "2")
+                else if (text == "Right mouse click")
                 {
                     this.textBox1.Text = "Right mouse click";
-                    RightClick(Cursor.Position.X, Cursor.Position.Y);
                 }
                 else
                     this.textBox1.Text = text;
@@ -350,15 +374,16 @@ namespace EyeTracker
 
         private void keybindingsToolStripMenuItem_Click(object sender, EventArgs e)
         {            
-            keybindingsForm.Show();
+            keybindingsForm.ShowDialog();
         }
 
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            settingsForm.Show();
+            settingsForm.ShowDialog();
         }
 
+        
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -378,6 +403,11 @@ namespace EyeTracker
             mouse_event(MOUSEEVENTF_RIGHTDOWN, PositionX, PositionY, 0, 0);
             System.Threading.Thread.Sleep(50);
             mouse_event(MOUSEEVENTF_RIGHTUP, PositionX, PositionY, 0, 0);
+        }
+        public void CursorGaze()
+        {
+            gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => textBox1.Text = String.Format("X: {0} Y:{1}", gazePointX, gazePointY));
+            gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; Cursor.Position = new Point(posX, posY); });
         }
     }
 
