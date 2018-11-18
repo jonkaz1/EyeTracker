@@ -24,6 +24,7 @@ namespace EyeTracker
         KeyboardForm keyboardForm = new KeyboardForm();
         SettingsForm settingsForm = new SettingsForm();
         KeybindingsForm keybindingsForm;
+        KeybindingConfigurationForm keybindingConfigurationForm;
 
 
         //start of import for gaze postion
@@ -50,6 +51,7 @@ namespace EyeTracker
             InitializeComponent();
 
             keybindingsForm = new KeybindingsForm(this);
+            keybindingConfigurationForm = new KeybindingConfigurationForm(this);
             isGazeAutoStart = settingsForm.isGazeOn;
 
             if (isGazeAutoStart)
@@ -209,8 +211,12 @@ namespace EyeTracker
             }
         }
 
-        #endregion
+        private void editKeybindingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            keybindingConfigurationForm.ShowDialog();
+        }
 
+        #endregion
 
         /// <summary>
         /// Checks inputs for specific commands TO DO STUFF

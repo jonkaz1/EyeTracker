@@ -12,29 +12,11 @@ namespace EyeTracker
 {
     public partial class KeybindingConfigurationForm : Form
     {
-        public KeybindingConfigurationForm()
+        Form1 form;
+        public KeybindingConfigurationForm(Form1 form)
         {
             InitializeComponent();
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label10_Click(object sender, EventArgs e)
-        {
-
+            this.form = form;
         }
     }
 }
