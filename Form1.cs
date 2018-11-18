@@ -229,7 +229,7 @@ namespace EyeTracker
 
             if (c.Equals(commands[1]))
             {
-                SendKeys.Send("%{TAB}");
+                SendKeys.Send("^%{TAB}");
                 //System.Diagnostics.Process process = new System.Diagnostics.Process();
                 //System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                 //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
