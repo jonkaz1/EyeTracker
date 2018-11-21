@@ -28,13 +28,18 @@ namespace EyeTracker
 
 
         //start of import for gaze postion
-        bool isGazeAutoStart = false;
+        Mouse mouse = new Mouse();
+        bool isGazeStart = false;
+
+        //pratestuoti, tada galima bus trinti
         int posX = 0, posY = 0;                                         //Eye gaze x and y  coordinates
         static Host host = new Host();                                  //changed from var to Host
         GazePointDataStream gazePointDataStream = host.Streams.CreateGazePointDataStream(); //changed from var to GazePointDataStream
-        //end of import for gaze postion
+                                                                                           //end of import for gaze postion
 
         //start of imports for mouse clicks
+
+        /* pratestuoti, tada galima bus trinti
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern bool SetCursorPos(int x, int y);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -43,6 +48,8 @@ namespace EyeTracker
         public const int MOUSEEVENTF_LEFTUP = 0x04;
         public const int MOUSEEVENTF_RIGHTDOWN = 0x08;
         public const int MOUSEEVENTF_RIGHTUP = 0x10;
+        */
+
         //end of imports for mouse clicks
 
         public Form1()
@@ -52,14 +59,14 @@ namespace EyeTracker
 
             keybindingsForm = new KeybindingsForm(this);
             keybindingConfigurationForm = new KeybindingConfigurationForm(this);
-            isGazeAutoStart = settingsForm.isGazeOn;
+            isGazeStart = settingsForm.isGazeOn;
 
-            if (isGazeAutoStart)
-            {
-                CursorGaze();
-                //gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => textBox1.Text = String.Format("X: {0} Y:{1}", gazePointX, gazePointY));
-                //gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; Cursor.Position = new Point(posX, posY); });
-            }
+            //Patikrinti ar veikia
+            isGazeStart = mouse.ToggleCursorGaze(isGazeStart);
+            //if (isGazeStart)
+            //{
+            //    CursorGaze();
+            //}
 
 
             commands.Add(110); 
@@ -83,8 +90,9 @@ namespace EyeTracker
         private void button1_Click(object sender, EventArgs e)
         {
             //Patikrinti ar čia persimeta pelė į vietą kurią žiūri ir ar sukasi ciklas ar tiesiog 1 kartą tik paspaudus mygtuką
-            CursorGaze();
-            //setText("1"); //just to test
+            isGazeStart = mouse.ToggleCursorGaze(isGazeStart);
+
+            //CursorGaze();
         }
 
 
@@ -295,7 +303,7 @@ namespace EyeTracker
             if (c.Equals(commands[7]))
             {
                 setText("Left mouse click");
-                LeftClick(Cursor.Position.X, Cursor.Position.Y);
+                mouse.LeftClick(Cursor.Position.X, Cursor.Position.Y);
 
                 inputs.RemoveAll(y => y < 3);
                 return;
@@ -304,7 +312,7 @@ namespace EyeTracker
             if (c.Equals(commands[8]))
             {
                 setText("Right mouse click");
-                RightClick(Cursor.Position.X, Cursor.Position.Y);
+                mouse.RightClick(Cursor.Position.X, Cursor.Position.Y);
 
                 inputs.RemoveAll(y => y < 3);
                 return;
@@ -396,6 +404,7 @@ namespace EyeTracker
 
         }
 
+        /* Reikia pratestuoti, tada bus galima ištrinti iš čia
         public static void LeftClick(int PositionX, int PositionY)
         {
             SetCursorPos(PositionX, PositionY);
@@ -410,11 +419,13 @@ namespace EyeTracker
             System.Threading.Thread.Sleep(50);
             mouse_event(MOUSEEVENTF_RIGHTUP, PositionX, PositionY, 0, 0);
         }
+        
         public void CursorGaze()
         {
             gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => textBox1.Text = String.Format("X: {0} Y:{1}", gazePointX, gazePointY));
             gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; Cursor.Position = new Point(posX, posY); });
         }
+        */
     }
 
     //Cancer 3rd stage
