@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -35,10 +36,11 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.keybindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editKeybindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutEyeTrackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editKeybindingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,11 +53,12 @@
             // 
             // button1
             // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
             this.button1.Location = new System.Drawing.Point(187, 176);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(424, 192);
             this.button1.TabIndex = 1;
-            this.button1.Text = "Start";
+            this.button1.Text = "Control mouse with eyes";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -91,16 +94,23 @@
             // keybindingsToolStripMenuItem
             // 
             this.keybindingsToolStripMenuItem.Name = "keybindingsToolStripMenuItem";
-            this.keybindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.keybindingsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.keybindingsToolStripMenuItem.Text = "Keybindings";
             this.keybindingsToolStripMenuItem.Click += new System.EventHandler(this.keybindingsToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            // 
+            // editKeybindingsToolStripMenuItem
+            // 
+            this.editKeybindingsToolStripMenuItem.Name = "editKeybindingsToolStripMenuItem";
+            this.editKeybindingsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.editKeybindingsToolStripMenuItem.Text = "Edit Keybindings";
+            this.editKeybindingsToolStripMenuItem.Click += new System.EventHandler(this.editKeybindingsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -114,21 +124,20 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.aboutToolStripMenuItem.Text = "View Help";
             // 
             // aboutEyeTrackerToolStripMenuItem
             // 
             this.aboutEyeTrackerToolStripMenuItem.Name = "aboutEyeTrackerToolStripMenuItem";
-            this.aboutEyeTrackerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutEyeTrackerToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.aboutEyeTrackerToolStripMenuItem.Text = "About EyeTracker";
             // 
-            // editKeybindingsToolStripMenuItem
+            // timer1
             // 
-            this.editKeybindingsToolStripMenuItem.Name = "editKeybindingsToolStripMenuItem";
-            this.editKeybindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.editKeybindingsToolStripMenuItem.Text = "Edit Keybindings";
-            this.editKeybindingsToolStripMenuItem.Click += new System.EventHandler(this.editKeybindingsToolStripMenuItem_Click);
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 25;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -142,7 +151,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "XXXEyeTracker v420.69";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "EyeTracker v0.69";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -163,6 +173,7 @@
         private System.Windows.Forms.ToolStripMenuItem aboutEyeTrackerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem keybindingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editKeybindingsToolStripMenuItem;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

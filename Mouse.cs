@@ -16,8 +16,9 @@ namespace EyeTracker
     class Mouse
     {
         //start of import for gaze postion
-        int posX, posY;
-        static Host host;                                  //changed from var to Host
+        public int posX, posY, cursorX, cursorY;
+        public bool isCursorActive, isMoveSlowly;
+        static Host host = new Host(); 
         GazePointDataStream gazePointDataStream = host.Streams.CreateGazePointDataStream(); //changed from var to GazePointDataStream
         //end of import for gaze postion
 
@@ -36,23 +37,71 @@ namespace EyeTracker
         {
             posX = 0;
             posY = 0;
-            host = new Host();                                  //changed from var to Host
-            //gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; Cursor.Position = new Point(posX, posY); });
+            cursorX = 0;
+            cursorY = 0;
+            isCursorActive = false;
+            isMoveSlowly = false;
 
-            //gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; });
+            gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; });
             //Cursor.Position = new Point(posX, posY);
         }
-        public bool ToggleCursorGaze(bool isGazeStart)
+        public void ToggleCursorGaze()
         {
-            if (isGazeStart)
+            if (isCursorActive)
             {
-                gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; Cursor.Position = new Point(posX, posY); });
-                return false;
+                isCursorActive = false;
             }
             else
             {
-                gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; });
-                return true;
+                isCursorActive = true;
+            }
+        }
+        public void SetCursorPosition()
+        {
+            if (isCursorActive)
+            {
+                if (isMoveSlowly)
+                {
+                    Cursor.Position = new Point(cursorX, cursorY);
+                }
+                else
+                {
+                    Cursor.Position = new Point(posX, posY);
+                }
+            }
+        }
+
+        public void saveCursorPosition()
+        {
+            cursorX = posX;
+            cursorY = posY;
+            isMoveSlowly = true;
+        }
+        public void moveCursorSlowly()
+        {
+            if (posX > cursorX)
+            {
+                cursorX += 2;
+                if (posY > cursorY)
+                {
+                    cursorY += 2;
+                }
+                else
+                {
+                    cursorY -= 2;
+                }
+            }
+            else if (posX < cursorX)
+            {
+                cursorX -= 2;
+                if (posY > cursorY)
+                {
+                    cursorY += 2;
+                }
+                else
+                {
+                    cursorY -= 2;
+                }
             }
         }
 

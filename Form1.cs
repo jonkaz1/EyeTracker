@@ -29,28 +29,10 @@ namespace EyeTracker
 
         //start of import for gaze postion
         Mouse mouse = new Mouse();
-        bool isGazeStart = false;
 
         //pratestuoti, tada galima bus trinti
-        int posX = 0, posY = 0;                                         //Eye gaze x and y  coordinates
         static Host host = new Host();                                  //changed from var to Host
-        GazePointDataStream gazePointDataStream = host.Streams.CreateGazePointDataStream(); //changed from var to GazePointDataStream
-                                                                                           //end of import for gaze postion
-
-        //start of imports for mouse clicks
-
-        /* pratestuoti, tada galima bus trinti
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        static extern bool SetCursorPos(int x, int y);
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
-        public const int MOUSEEVENTF_LEFTDOWN = 0x02;
-        public const int MOUSEEVENTF_LEFTUP = 0x04;
-        public const int MOUSEEVENTF_RIGHTDOWN = 0x08;
-        public const int MOUSEEVENTF_RIGHTUP = 0x10;
-        */
-
-        //end of imports for mouse clicks
+        //end of import for gaze postion
 
         public Form1()
         {
@@ -59,15 +41,8 @@ namespace EyeTracker
 
             keybindingsForm = new KeybindingsForm(this);
             keybindingConfigurationForm = new KeybindingConfigurationForm(this);
-            isGazeStart = settingsForm.isGazeOn;
 
-            //Patikrinti ar veikia
-            isGazeStart = mouse.ToggleCursorGaze(isGazeStart);
-            //if (isGazeStart)
-            //{
-            //    CursorGaze();
-            //}
-
+            mouse.isCursorActive = settingsForm.isGazeOn;
 
             commands.Add(110); 
             commands.Add(010);
@@ -89,10 +64,16 @@ namespace EyeTracker
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //Patikrinti ar čia persimeta pelė į vietą kurią žiūri ir ar sukasi ciklas ar tiesiog 1 kartą tik paspaudus mygtuką
-            isGazeStart = mouse.ToggleCursorGaze(isGazeStart);
-
-            //CursorGaze();
+            if (mouse.isCursorActive)
+            {
+                button1.Text = "Stop mouse controlling";
+            }
+            else
+            {
+                button1.Text = "Control mouse with eyes";
+            }
+            mouse.ToggleCursorGaze();
+            
         }
 
 
@@ -166,6 +147,14 @@ namespace EyeTracker
             }
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (mouse.isMoveSlowly)
+            {
+                mouse.moveCursorSlowly();
+            }
+            mouse.SetCursorPosition();
+        }
 
 
         /// <summary>
@@ -233,12 +222,9 @@ namespace EyeTracker
         {
             if (c.Equals(commands[0]))
             {
-                //setText("OK");
                 fYouVariable = false;
                 if (Application.OpenForms["KeyboardForm"] == null)
                     setText("0");
-                //this.Close();
-                //keyboardForm.Show();
                 else
                     keyboardForm.Close();
                 inputs.RemoveAll(y => y < 3);
@@ -303,7 +289,10 @@ namespace EyeTracker
             if (c.Equals(commands[7]))
             {
                 setText("Left mouse click");
-                mouse.LeftClick(Cursor.Position.X, Cursor.Position.Y);
+                mouse.saveCursorPosition();
+
+
+                //mouse.LeftClick(Cursor.Position.X, Cursor.Position.Y);
 
                 inputs.RemoveAll(y => y < 3);
                 return;
@@ -312,7 +301,9 @@ namespace EyeTracker
             if (c.Equals(commands[8]))
             {
                 setText("Right mouse click");
-                mouse.RightClick(Cursor.Position.X, Cursor.Position.Y);
+                mouse.saveCursorPosition();
+
+                //mouse.RightClick(mouse.posX, mouse.posY);
 
                 inputs.RemoveAll(y => y < 3);
                 return;
@@ -371,14 +362,6 @@ namespace EyeTracker
             {
                 if (text == "0")
                     keyboardForm.Show();
-                else if (text == "Left mouse click")
-                {
-                    this.textBox1.Text = "Left mouse click";
-                }
-                else if (text == "Right mouse click")
-                {
-                    this.textBox1.Text = "Right mouse click";
-                }
                 else
                     this.textBox1.Text = text;
                 Console.WriteLine(text);
@@ -397,35 +380,6 @@ namespace EyeTracker
             settingsForm.ShowDialog();
         }
 
-        
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        /* Reikia pratestuoti, tada bus galima ištrinti iš čia
-        public static void LeftClick(int PositionX, int PositionY)
-        {
-            SetCursorPos(PositionX, PositionY);
-            mouse_event(MOUSEEVENTF_LEFTDOWN, PositionX, PositionY, 0, 0);
-            System.Threading.Thread.Sleep(50);
-            mouse_event(MOUSEEVENTF_LEFTUP, PositionX, PositionY, 0, 0);
-        }
-        public static void RightClick(int PositionX, int PositionY)
-        {
-            SetCursorPos(PositionX, PositionY);
-            mouse_event(MOUSEEVENTF_RIGHTDOWN, PositionX, PositionY, 0, 0);
-            System.Threading.Thread.Sleep(50);
-            mouse_event(MOUSEEVENTF_RIGHTUP, PositionX, PositionY, 0, 0);
-        }
-        
-        public void CursorGaze()
-        {
-            gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => textBox1.Text = String.Format("X: {0} Y:{1}", gazePointX, gazePointY));
-            gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; Cursor.Position = new Point(posX, posY); });
-        }
-        */
     }
 
     //Cancer 3rd stage
