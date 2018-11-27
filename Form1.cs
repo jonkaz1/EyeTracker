@@ -30,7 +30,10 @@ namespace EyeTracker
         //start of import for gaze postion
         Mouse mouse = new Mouse();
 
-        //pratestuoti, tada galima bus trinti
+        public delegate void ComponentReadyDelegate(MouseClickForm component);
+        private MouseClickForm _mouseClickForm;
+        //MouseClickForm mouseClickForm = new MouseClickForm();
+
         static Host host = new Host();                                  //changed from var to Host
         //end of import for gaze postion
 
@@ -38,6 +41,17 @@ namespace EyeTracker
         {
 
             InitializeComponent();
+
+
+
+            _mouseClickForm = new MouseClickForm();
+            //ThreadPool.QueueUserWorkItem(o =>
+            //{
+            //    LoadComponent(_mouseClickForm);
+            //});
+            
+
+
 
             keybindingsForm = new KeybindingsForm(this);
             keybindingConfigurationForm = new KeybindingConfigurationForm(this);
@@ -61,6 +75,24 @@ namespace EyeTracker
             waitingForEyeInput(positionss);
 
         }
+
+
+
+        //public void LoadComponent(MouseClickForm component)
+        //{
+        //    if (this._mouseClickForm.InvokeRequired)
+        //    {
+        //        ComponentReadyDelegate e = new ComponentReadyDelegate(LoadComponent);
+        //        this.BeginInvoke(e, new object[] { component });
+        //    }
+        //    else
+        //    {
+        //        // The component is used by a UI control
+        //        component.updateLocation();
+        //    }
+        //}
+
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -152,8 +184,15 @@ namespace EyeTracker
             if (mouse.isMoveSlowly)
             {
                 mouse.moveCursorSlowly();
+                //_mouseClickForm.updateLocation();
+                //LoadComponent(_mouseClickForm);
+
             }
             mouse.SetCursorPosition();
+            if (mouse.posX == 0 && mouse.posY == 0)
+            {
+                mouse.reinitializeGazePoint();
+            }
         }
 
 
@@ -290,6 +329,7 @@ namespace EyeTracker
             {
                 setText("Left mouse click");
                 mouse.saveCursorPosition();
+                _mouseClickForm.Show();
 
 
                 //mouse.LeftClick(Cursor.Position.X, Cursor.Position.Y);
@@ -302,6 +342,7 @@ namespace EyeTracker
             {
                 setText("Right mouse click");
                 mouse.saveCursorPosition();
+                _mouseClickForm.Show();
 
                 //mouse.RightClick(mouse.posX, mouse.posY);
 
@@ -367,7 +408,6 @@ namespace EyeTracker
                 Console.WriteLine(text);
             }
         }
-        
 
         private void keybindingsToolStripMenuItem_Click(object sender, EventArgs e)
         {            

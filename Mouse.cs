@@ -105,6 +105,11 @@ namespace EyeTracker
             }
         }
 
+        public void reinitializeGazePoint()
+        {
+            gazePointDataStream = host.Streams.CreateGazePointDataStream();
+            gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; });
+        }
         public void LeftClick(int PositionX, int PositionY)
         {
             SetCursorPos(PositionX, PositionY);
