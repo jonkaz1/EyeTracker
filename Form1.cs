@@ -186,7 +186,6 @@ namespace EyeTracker
                 mouse.moveCursorSlowly();
                 //_mouseClickForm.updateLocation();
                 //LoadComponent(_mouseClickForm);
-
             }
             mouse.SetCursorPosition();
             if (mouse.posX == 0 && mouse.posY == 0)
@@ -272,7 +271,8 @@ namespace EyeTracker
 
             if (c.Equals(commands[1]))
             {
-                SendKeys.Send("^%{TAB}");
+                setComm("^%{TAB}");
+                //SendKeys.Send("^%{TAB}");
                 //System.Diagnostics.Process process = new System.Diagnostics.Process();
                 //System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                 //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
@@ -329,7 +329,7 @@ namespace EyeTracker
             {
                 setText("Left mouse click");
                 mouse.saveCursorPosition();
-                _mouseClickForm.Show();
+                //_mouseClickForm.Show(); transparent form, not working
 
 
                 //mouse.LeftClick(Cursor.Position.X, Cursor.Position.Y);
@@ -342,7 +342,7 @@ namespace EyeTracker
             {
                 setText("Right mouse click");
                 mouse.saveCursorPosition();
-                _mouseClickForm.Show();
+                //_mouseClickForm.Show(); transparent form, not working
 
                 //mouse.RightClick(mouse.posX, mouse.posY);
 
@@ -406,6 +406,29 @@ namespace EyeTracker
                 else
                     this.textBox1.Text = text;
                 Console.WriteLine(text);
+            }
+        }
+
+        private void setComm(string text)
+        {
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (this.textBox1.InvokeRequired)
+            {
+                try
+                {
+                    StringArgReturningVoidDelegate d = new StringArgReturningVoidDelegate(setText);
+                    this.Invoke(d, new object[] { text });
+                }
+                catch (ObjectDisposedException e)
+                {
+                    //If somebody finds me, this poor unloved exception that was thrown to a corner and forgotten, REMEMBER ME!!!
+                }
+            }
+            else
+            {
+                SendKeys.Send(text);
             }
         }
 

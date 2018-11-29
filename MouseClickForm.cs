@@ -37,6 +37,7 @@ namespace EyeTracker
         {
             //this.Location = new Point(400, 500);
             this.DesktopLocation = Cursor.Position;
+
         }
     }
 }
