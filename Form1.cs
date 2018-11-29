@@ -473,7 +473,7 @@ namespace EyeTracker
             {
                 return;
             }
-            string c = string.Format("[0]", inputs[x - 3] * 100 + inputs[x - 2] * 10 + inputs[x - 1]);
+            string c = string.Format("{0}{1}{2}", inputs[x - 3] * 100, inputs[x - 2] * 10, inputs[x - 1]);
             CheckCommand(c);
             //if (inputs[0] == commands[0][0] && inputs[1] == commands[0][1] && inputs[2] == commands[0][2])
             //{

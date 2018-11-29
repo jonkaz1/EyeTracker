@@ -31,7 +31,11 @@ namespace EyeTracker
         {
             form1.calibration.isCalibrating = false;
             form1.calibration.calculateAverageBlinkTime();
-            form1.calibration.saveBlinkTimeToMemory();
+            if (form1.calibration.isCalibrationDone)
+            {
+                form1.calibration.saveBlinkTimeToMemory();
+                form1.calibration.isCalibrationDone = false;
+            }
             form1.calibration.time = form1.calibration.time = 20;
         }
 
@@ -102,6 +106,7 @@ namespace EyeTracker
                         label5.Visible = false;
                         label6.Visible = false;
                         richTextBox1.Visible = false;
+                        form1.calibration.isCalibrationDone = true;
                     }
                 }
 

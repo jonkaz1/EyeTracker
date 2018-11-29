@@ -11,7 +11,7 @@ namespace EyeTracker
         public long leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime, leftMax, rightMax, BothMax;
         public long leftEyeBlinkTime2, rightEyeBlinkTime2, BothEyeBlinkTime2, leftMax2, rightMax2, BothMax2;
         public long forcedLeftBlinkTime, forcedRightBlinkTime, forcedBothBlinkTime;
-        public bool isCalibrating, isSecondTime;
+        public bool isCalibrating, isSecondTime, isCalibrationDone;
         public int time;
         public List<long> leftEyeTimeList, rightEyeTimeList, BothEyeTimeList;
         public List<long> leftEyeTimeList2, rightEyeTimeList2, BothEyeTimeList2;
@@ -29,6 +29,7 @@ namespace EyeTracker
             BothEyeTimeList2 = new List<long>();
             isCalibrating = false;
             isSecondTime = false;
+            isCalibrationDone = false;
             setBlinkTimeFromMemory();
         }
         public void toggleCalinbrating()
