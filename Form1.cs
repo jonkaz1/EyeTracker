@@ -16,8 +16,8 @@ namespace EyeTracker
     {
         delegate void StringArgReturningVoidDelegate(string text);
         DateTime dateL1, dateL2, dateR1, dateR2, dateB1, dateB2;          //variables to track dates of left/right/both last opened/closed eye
-        List<string> commands = new List<string>();   //0 - Both are closed;   1- Left is closed;    2 - Right is closed
-        List<string> commandsName = new List<string>();
+        List<List<string>> commands = new List<List<string>>();   //0 - Both are closed;   1- Left is closed;    2 - Right is closed
+       // List<string> commandsName = new List<string>();
         List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
         bool fYouVariable = false;          //Check if next inputs are for commands
@@ -57,7 +57,7 @@ namespace EyeTracker
             readCommandFile();
 
 
-            keybindingsForm = new KeybindingsForm(this, commands, commandsName);
+            keybindingsForm = new KeybindingsForm(this, commands);
             calibrationForm = new CalibrationForm(this);
             keybindingConfigurationForm = new KeybindingConfigurationForm(this);
 
@@ -95,10 +95,13 @@ namespace EyeTracker
 
             // Display the file contents by using a foreach loop.
             foreach (string line in lines)
-            {
+            {               
+                List<string> x = new List<string>();
                 string[] spl = line.Split(',');
-                commands.Add(spl[1]);
-                commandsName.Add(spl[0]);
+                x.Add(spl[0]);
+                x.Add(spl[1]);
+                x.Add(spl[2]);
+                commands.Add(x);
             }
 
         }
@@ -313,79 +316,8 @@ namespace EyeTracker
         /// </summary>
         private void CheckCommand(string c)
         {
-            //if (c.Equals(commands[0]))
-            //{
-            //    fYouVariable = false;
-            //    if (Application.OpenForms["KeyboardForm"] == null)
-            //        setText("0");
-            //    else
-            //        keyboardForm.Close();
-            //    inputs.RemoveAll(y => y < 3);
-            //    return;
-            //}
-
-            if (c.Equals(commands[1]))
-            {
-                setComm("^%{TAB}");
-                //SendKeys.Send("^%{TAB}");
-                //System.Diagnostics.Process process = new System.Diagnostics.Process();
-                //System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                //startInfo.FileName = "cmd.exe";
-                //startInfo.Arguments = "alt+tab";
-                //process.StartInfo = startInfo;
-                //process.Start();
-
-                inputs.RemoveAll(y => y < 3);
-                return;
-            }
-
-            if (c.Equals(commands[2]))
-            {
-                //SendKeys.Send("+%");
-                setComm("+%");
-
-                inputs.RemoveAll(y => y < 3);
-                return;
-            }
-
-            if (c.Equals(commands[3]))
-            {
-                //SendKeys.Send("%{LEFT}");
-                setComm("%{LEFT}");
-
-                inputs.RemoveAll(y => y < 3);
-                return;
-            }
-
-            if (c.Equals(commands[4]))
-            {
-                //SendKeys.Send("%{RIGHT}");
-                setComm("%{RIGHT}");
-
-                inputs.RemoveAll(y => y < 3);
-                return;
-            }
-
-            if (c.Equals(commands[5]))
-            {
-                //SendKeys.Send("^{C}");
-                setComm("^{C}");
-
-                inputs.RemoveAll(y => y < 3);
-                return;
-            }
-
-            if (c.Equals(commands[6]))
-            {
-                //SendKeys.Send("^{P}");
-                setComm("^{P}");
-
-                inputs.RemoveAll(y => y < 3);
-                return;
-            }
-
-            if (c.Equals(commands[7]))
+            
+            if (c.Equals(commands[0][1]))
             {
                 setText("Left mouse click");
                 mouse.saveCursorPosition();
@@ -398,7 +330,7 @@ namespace EyeTracker
                 return;
             }
 
-            if (c.Equals(commands[8]))
+            if (c.Equals(commands[1][1]))
             {
                 setText("Right mouse click");
                 mouse.saveCursorPosition();
@@ -409,6 +341,89 @@ namespace EyeTracker
                 inputs.RemoveAll(y => y < 3);
                 return;
             }
+
+            if (c.Equals(commands[2][1]))
+            {
+                fYouVariable = false;
+                if (Application.OpenForms["KeyboardForm"] == null)
+                    setText("0");
+                else
+                    keyboardForm.Close();
+                inputs.RemoveAll(y => y < 3);
+                return;
+            }
+
+            for (int i = 3; i < commands.Count(); i++)
+            {
+                if (c.Equals(commands[i][1]))
+                {
+                    setComm(commands[i][2]);
+                }
+            }
+
+
+            //if (c.Equals(commands[1]))
+            //{
+            //    setComm("^%{TAB}");
+            //    //SendKeys.Send("^%{TAB}");
+            //    //System.Diagnostics.Process process = new System.Diagnostics.Process();
+            //    //System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            //    //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            //    //startInfo.FileName = "cmd.exe";
+            //    //startInfo.Arguments = "alt+tab";
+            //    //process.StartInfo = startInfo;
+            //    //process.Start();
+
+            //    inputs.RemoveAll(y => y < 3);
+            //    return;
+            //}
+
+            //if (c.Equals(commands[2]))
+            //{
+            //    //SendKeys.Send("+%");
+            //    setComm("+%");
+
+            //    inputs.RemoveAll(y => y < 3);
+            //    return;
+            //}
+
+            //if (c.Equals(commands[3]))
+            //{
+            //    //SendKeys.Send("%{LEFT}");
+            //    setComm("%{LEFT}");
+
+            //    inputs.RemoveAll(y => y < 3);
+            //    return;
+            //}
+
+            //if (c.Equals(commands[4]))
+            //{
+            //    //SendKeys.Send("%{RIGHT}");
+            //    setComm("%{RIGHT}");
+
+            //    inputs.RemoveAll(y => y < 3);
+            //    return;
+            //}
+
+            //if (c.Equals(commands[5]))
+            //{
+            //    //SendKeys.Send("^{C}");
+            //    setComm("^{C}");
+
+            //    inputs.RemoveAll(y => y < 3);
+            //    return;
+            //}
+
+            //if (c.Equals(commands[6]))
+            //{
+            //    //SendKeys.Send("^{P}");
+            //    setComm("^{P}");
+
+            //    inputs.RemoveAll(y => y < 3);
+            //    return;
+            //}
+
+
         }
 
 

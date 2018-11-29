@@ -1,9 +1,9 @@
-﻿Klaviaturos iskvietimas,110
-Lango pakeitimas,010
-Kalbos pakeitimas,000
-Atgal,110
-Pirmyn,220
-Kopijuoti,120
-Iklijuoti,210
-LeftClick,100
-RightClick,200
+﻿LeftClick,100,NULL
+RightClick,200,NULL
+Klaviaturos iskvietimas,110,NULL
+Lango pakeitimas,010,^%{TAB}
+Kalbos pakeitimas,000,+%
+Atgal,110,%{LEFT}
+Pirmyn,220,%{RIGHT}
+Kopijuoti,120,^{C}
+Iklijuoti,210,^{P}
