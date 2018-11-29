@@ -21,7 +21,7 @@ namespace EyeTracker
         List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
         bool fYouVariable = false;          //Check if next inputs are for commands
-        int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000000;        //variables to store eye blinking time
+        int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000;        //variables to store eye blinking time
         KeyboardForm keyboardForm = new KeyboardForm();
         SettingsForm settingsForm = new SettingsForm();
         CalibrationForm calibrationForm;
@@ -206,7 +206,7 @@ namespace EyeTracker
                 }
                 else
                 {
-                    calibration.timeList.Add((int)x.Ticks);
+                    calibration.BothEyeTimeList.Add((int)x.Ticks);
                 }
                 bothEyeClosed = false;
                 leftEyeClosed = false;
@@ -256,7 +256,7 @@ namespace EyeTracker
                 }
                 else
                 {
-
+                    calibration.leftEyeTimeList.Add((int)x.Ticks);
                 }
                 leftEyeClosed = false;
             }
@@ -264,8 +264,8 @@ namespace EyeTracker
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            calibrationForm.ShowDialog();
             calibration.toggleCalinbrating();
+            calibrationForm.ShowDialog();
         }
 
 
@@ -295,7 +295,7 @@ namespace EyeTracker
                 }
                 else
                 {
-
+                    calibration.rightEyeTimeList.Add((int)x.Ticks);
                 }
                 rightEyeClosed = false;
             }
