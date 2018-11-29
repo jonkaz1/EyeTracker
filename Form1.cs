@@ -186,7 +186,6 @@ namespace EyeTracker
                 mouse.moveCursorSlowly();
                 //_mouseClickForm.updateLocation();
                 //LoadComponent(_mouseClickForm);
-
             }
             mouse.SetCursorPosition();
             if (mouse.posX == 0 && mouse.posY == 0)
@@ -335,7 +334,7 @@ namespace EyeTracker
             {
                 setText("Left mouse click");
                 mouse.saveCursorPosition();
-                _mouseClickForm.Show();
+                //_mouseClickForm.Show(); transparent form, not working
 
 
                 //mouse.LeftClick(Cursor.Position.X, Cursor.Position.Y);
@@ -348,7 +347,7 @@ namespace EyeTracker
             {
                 setText("Right mouse click");
                 mouse.saveCursorPosition();
-                _mouseClickForm.Show();
+                //_mouseClickForm.Show(); transparent form, not working
 
                 //mouse.RightClick(mouse.posX, mouse.posY);
 

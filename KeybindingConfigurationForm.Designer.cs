@@ -29,8 +29,9 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -42,21 +43,20 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.copyBindingFirstAction = new System.Windows.Forms.ComboBox();
             this.copyBindingSecondAction = new System.Windows.Forms.ComboBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.copyBindingButton = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.copyBindingThirdAction = new System.Windows.Forms.ComboBox();
+            this.copyBindingFirstPause = new System.Windows.Forms.ComboBox();
+            this.copyBindingSecondPause = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.copyBindingThirdAction = new System.Windows.Forms.ComboBox();
-            this.copyBindingFirstPause = new System.Windows.Forms.ComboBox();
-            this.copyBindingSecondPause = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,7 +72,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
             this.tableLayoutPanel1.Controls.Add(this.label23, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label22, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.label16, 1, 3);
@@ -90,7 +90,7 @@
             this.tableLayoutPanel1.Controls.Add(this.copyBindingFirstAction, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.copyBindingSecondAction, 4, 1);
             this.tableLayoutPanel1.Controls.Add(this.label17, 5, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button2, 9, 1);
+            this.tableLayoutPanel1.Controls.Add(this.copyBindingButton, 9, 1);
             this.tableLayoutPanel1.Controls.Add(this.label8, 8, 0);
             this.tableLayoutPanel1.Controls.Add(this.copyBindingThirdAction, 8, 1);
             this.tableLayoutPanel1.Controls.Add(this.copyBindingFirstPause, 3, 1);
@@ -105,8 +105,38 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(831, 325);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(956, 325);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // label23
+            // 
+            this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(370, 3);
+            this.label23.Margin = new System.Windows.Forms.Padding(3);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(129, 16);
+            this.label23.TabIndex = 21;
+            this.label23.Text = "Išlaikymo trurkmė";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label22
+            // 
+            this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(505, 3);
+            this.label22.Margin = new System.Windows.Forms.Padding(3);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(96, 16);
+            this.label22.TabIndex = 10;
+            this.label22.Text = "2# Veiksmas";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label16
             // 
@@ -121,18 +151,6 @@
             this.label16.TabIndex = 15;
             this.label16.Text = "CTRL+V";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(728, 25);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(100, 21);
-            this.button2.TabIndex = 13;
-            this.button2.Text = "Redaguoti";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // label12
             // 
@@ -291,56 +309,13 @@
             this.label13.Text = "Įklijuoti";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(505, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(114, 25);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Komandos";
-            // 
-            // label17
-            // 
-            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(549, 3);
-            this.label17.Margin = new System.Windows.Forms.Padding(3);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(71, 16);
-            this.label17.TabIndex = 16;
-            this.label17.Text = "2# Pauzė";
-            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(626, 3);
-            this.label8.Margin = new System.Windows.Forms.Padding(3);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(96, 16);
-            this.label8.TabIndex = 17;
-            this.label8.Text = "3# Veiksmas";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // copyBindingFirstAction
             // 
             this.copyBindingFirstAction.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.copyBindingFirstAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.copyBindingFirstAction.FormattingEnabled = true;
-            this.copyBindingFirstAction.Items.AddRange(new object[] {
-            "L",
-            "R",
-            "LR"});
             this.copyBindingFirstAction.Location = new System.Drawing.Point(268, 25);
             this.copyBindingFirstAction.Name = "copyBindingFirstAction";
             this.copyBindingFirstAction.Size = new System.Drawing.Size(96, 21);
@@ -351,11 +326,111 @@
             this.copyBindingSecondAction.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.copyBindingSecondAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.copyBindingSecondAction.FormattingEnabled = true;
-            this.copyBindingSecondAction.Location = new System.Drawing.Point(447, 25);
+            this.copyBindingSecondAction.Items.AddRange(new object[] {
+            "L",
+            "R",
+            "LR"});
+            this.copyBindingSecondAction.Location = new System.Drawing.Point(505, 25);
             this.copyBindingSecondAction.Name = "copyBindingSecondAction";
             this.copyBindingSecondAction.Size = new System.Drawing.Size(96, 21);
             this.copyBindingSecondAction.TabIndex = 19;
+            // 
+            // label17
+            // 
+            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(607, 3);
+            this.label17.Margin = new System.Windows.Forms.Padding(3);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(129, 16);
+            this.label17.TabIndex = 16;
+            this.label17.Text = "Išlaikymo trurkmė";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // copyBindingButton
+            // 
+            this.copyBindingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.copyBindingButton.Location = new System.Drawing.Point(844, 25);
+            this.copyBindingButton.Name = "copyBindingButton";
+            this.copyBindingButton.Size = new System.Drawing.Size(109, 21);
+            this.copyBindingButton.TabIndex = 13;
+            this.copyBindingButton.Text = "Redaguoti";
+            this.copyBindingButton.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(742, 3);
+            this.label8.Margin = new System.Windows.Forms.Padding(3);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(96, 16);
+            this.label8.TabIndex = 17;
+            this.label8.Text = "3# Veiksmas";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // copyBindingThirdAction
+            // 
+            this.copyBindingThirdAction.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.copyBindingThirdAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.copyBindingThirdAction.FormattingEnabled = true;
+            this.copyBindingThirdAction.Items.AddRange(new object[] {
+            "L",
+            "R",
+            "LR"});
+            this.copyBindingThirdAction.Location = new System.Drawing.Point(742, 25);
+            this.copyBindingThirdAction.Name = "copyBindingThirdAction";
+            this.copyBindingThirdAction.Size = new System.Drawing.Size(96, 21);
+            this.copyBindingThirdAction.TabIndex = 22;
+            // 
+            // copyBindingFirstPause
+            // 
+            this.copyBindingFirstPause.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.copyBindingFirstPause.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.copyBindingFirstPause.FormattingEnabled = true;
+            this.copyBindingFirstPause.Items.AddRange(new object[] {
+            "I",
+            "T"});
+            this.copyBindingFirstPause.Location = new System.Drawing.Point(370, 25);
+            this.copyBindingFirstPause.Name = "copyBindingFirstPause";
+            this.copyBindingFirstPause.Size = new System.Drawing.Size(129, 21);
+            this.copyBindingFirstPause.TabIndex = 24;
+            // 
+            // copyBindingSecondPause
+            // 
+            this.copyBindingSecondPause.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.copyBindingSecondPause.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.copyBindingSecondPause.FormattingEnabled = true;
+            this.copyBindingSecondPause.Location = new System.Drawing.Point(607, 25);
+            this.copyBindingSecondPause.Name = "copyBindingSecondPause";
+            this.copyBindingSecondPause.Size = new System.Drawing.Size(129, 21);
+            this.copyBindingSecondPause.TabIndex = 25;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(505, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(114, 25);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Komandos";
             // 
             // label10
             // 
@@ -432,77 +507,11 @@
             this.label21.Text = "T - trumpa pauzė";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label22
-            // 
-            this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(447, 3);
-            this.label22.Margin = new System.Windows.Forms.Padding(3);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(96, 16);
-            this.label22.TabIndex = 10;
-            this.label22.Text = "1# Veiksmas";
-            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label23
-            // 
-            this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(370, 3);
-            this.label23.Margin = new System.Windows.Forms.Padding(3);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(71, 16);
-            this.label23.TabIndex = 21;
-            this.label23.Text = "1# Pauze";
-            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // copyBindingThirdAction
-            // 
-            this.copyBindingThirdAction.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.copyBindingThirdAction.FormattingEnabled = true;
-            this.copyBindingThirdAction.Location = new System.Drawing.Point(626, 25);
-            this.copyBindingThirdAction.Name = "copyBindingThirdAction";
-            this.copyBindingThirdAction.Size = new System.Drawing.Size(96, 21);
-            this.copyBindingThirdAction.TabIndex = 22;
-            // 
-            // copyBindingFirstPause
-            // 
-            this.copyBindingFirstPause.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.copyBindingFirstPause.FormattingEnabled = true;
-            this.copyBindingFirstPause.Items.AddRange(new object[] {
-            "I",
-            "T"});
-            this.copyBindingFirstPause.Location = new System.Drawing.Point(370, 25);
-            this.copyBindingFirstPause.Name = "copyBindingFirstPause";
-            this.copyBindingFirstPause.Size = new System.Drawing.Size(71, 21);
-            this.copyBindingFirstPause.TabIndex = 24;
-            // 
-            // copyBindingSecondPause
-            // 
-            this.copyBindingSecondPause.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.copyBindingSecondPause.FormattingEnabled = true;
-            this.copyBindingSecondPause.Location = new System.Drawing.Point(549, 25);
-            this.copyBindingSecondPause.Name = "copyBindingSecondPause";
-            this.copyBindingSecondPause.Size = new System.Drawing.Size(71, 21);
-            this.copyBindingSecondPause.TabIndex = 25;
-            // 
             // KeybindingConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1075, 663);
+            this.ClientSize = new System.Drawing.Size(1203, 663);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.label19);
@@ -535,7 +544,7 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button copyBindingButton;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox copyBindingFirstAction;

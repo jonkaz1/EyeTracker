@@ -72,6 +72,7 @@
     <Compile Include="KeybindingsForm.Designer.cs">
       <DependentUpon>KeybindingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="KeyConfigurationButtonGroup.cs" />
     <Compile Include="Mouse.cs" />
     <Compile Include="MouseClickForm.cs">
       <SubType>Form</SubType>
