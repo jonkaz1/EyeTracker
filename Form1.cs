@@ -17,6 +17,7 @@ namespace EyeTracker
         delegate void StringArgReturningVoidDelegate(string text);
         DateTime dateL1, dateL2, dateR1, dateR2, dateB1, dateB2;          //variables to track dates of left/right/both last opened/closed eye
         List<string> commands = new List<string>();   //0 - Both are closed;   1- Left is closed;    2 - Right is closed
+        List<string> commandsName = new List<string>();
         List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
         bool fYouVariable = false;          //Check if next inputs are for commands
@@ -52,11 +53,11 @@ namespace EyeTracker
             //{
             //    LoadComponent(_mouseClickForm);
             //});
-            
+
+            readCommandFile();
 
 
-
-            keybindingsForm = new KeybindingsForm(this);
+            keybindingsForm = new KeybindingsForm(this, commands, commandsName);
             calibrationForm = new CalibrationForm(this);
             keybindingConfigurationForm = new KeybindingConfigurationForm(this);
 
@@ -64,7 +65,6 @@ namespace EyeTracker
 
 
 
-            readCommandFile();
 
             //commands.Add("110"); 
             //commands.Add("010");
@@ -98,6 +98,7 @@ namespace EyeTracker
             {
                 string[] spl = line.Split(',');
                 commands.Add(spl[1]);
+                commandsName.Add(spl[0]);
             }
 
         }
@@ -191,7 +192,6 @@ namespace EyeTracker
                 //if (x.Ticks > 3500000)
                 if (!calibration.isCalibrating)
                 {
-<<<<<<< HEAD
                     if (x.Ticks > BothEyeBlinkTime)
                     {
 
@@ -207,16 +207,6 @@ namespace EyeTracker
                 else
                 {
                     calibration.timeList.Add((int)x.Ticks);
-=======
-
-                    inputs.Add(0);
-                    //If we don't expect commands THEN check random inputs for specific line ELSE check if given inputs matches one of commands
-                    //if (fYouVariable != true)
-                    if (x.Ticks > BothEyeBlinkTime)
-                        CheckInputs();
-                    //else
-                    //    CheckCommand();
->>>>>>> origin/master
                 }
                 bothEyeClosed = false;
                 leftEyeClosed = false;
