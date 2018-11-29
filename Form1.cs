@@ -20,7 +20,7 @@ namespace EyeTracker
         List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
         bool fYouVariable = false;          //Check if next inputs are for commands
-        int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 30;        //variables to store eye blinking time
+        int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 1000000;        //variables to store eye blinking time
         KeyboardForm keyboardForm = new KeyboardForm();
         SettingsForm settingsForm = new SettingsForm();
         CalibrationForm calibrationForm;
@@ -167,6 +167,7 @@ namespace EyeTracker
                 //if (x.Ticks > 3500000)
                 if (!calibration.isCalibrating)
                 {
+<<<<<<< HEAD
                     if (x.Ticks > BothEyeBlinkTime)
                     {
 
@@ -182,6 +183,16 @@ namespace EyeTracker
                 else
                 {
                     calibration.timeList.Add((int)x.Ticks);
+=======
+
+                    inputs.Add(0);
+                    //If we don't expect commands THEN check random inputs for specific line ELSE check if given inputs matches one of commands
+                    //if (fYouVariable != true)
+                    if (x.Ticks > BothEyeBlinkTime)
+                        CheckInputs();
+                    //else
+                    //    CheckCommand();
+>>>>>>> origin/master
                 }
                 bothEyeClosed = false;
                 leftEyeClosed = false;
@@ -288,16 +299,16 @@ namespace EyeTracker
         /// </summary>
         private void CheckCommand(int c)
         {
-            if (c.Equals(commands[0]))
-            {
-                fYouVariable = false;
-                if (Application.OpenForms["KeyboardForm"] == null)
-                    setText("0");
-                else
-                    keyboardForm.Close();
-                inputs.RemoveAll(y => y < 3);
-                return;
-            }
+            //if (c.Equals(commands[0]))
+            //{
+            //    fYouVariable = false;
+            //    if (Application.OpenForms["KeyboardForm"] == null)
+            //        setText("0");
+            //    else
+            //        keyboardForm.Close();
+            //    inputs.RemoveAll(y => y < 3);
+            //    return;
+            //}
 
             if (c.Equals(commands[1]))
             {
@@ -317,7 +328,8 @@ namespace EyeTracker
 
             if (c.Equals(commands[2]))
             {
-                SendKeys.Send("+%");
+                //SendKeys.Send("+%");
+                setComm("+%");
 
                 inputs.RemoveAll(y => y < 3);
                 return;
@@ -325,7 +337,8 @@ namespace EyeTracker
 
             if (c.Equals(commands[3]))
             {
-                SendKeys.Send("%{LEFT}");
+                //SendKeys.Send("%{LEFT}");
+                setComm("%{LEFT}");
 
                 inputs.RemoveAll(y => y < 3);
                 return;
@@ -333,7 +346,8 @@ namespace EyeTracker
 
             if (c.Equals(commands[4]))
             {
-                SendKeys.Send("%{RIGHT}");
+                //SendKeys.Send("%{RIGHT}");
+                setComm("%{RIGHT}");
 
                 inputs.RemoveAll(y => y < 3);
                 return;
@@ -341,7 +355,8 @@ namespace EyeTracker
 
             if (c.Equals(commands[5]))
             {
-                SendKeys.Send("^{C}");
+                //SendKeys.Send("^{C}");
+                setComm("^{C}");
 
                 inputs.RemoveAll(y => y < 3);
                 return;
@@ -349,7 +364,8 @@ namespace EyeTracker
 
             if (c.Equals(commands[6]))
             {
-                SendKeys.Send("^{P}");
+                //SendKeys.Send("^{P}");
+                setComm("^{P}");
 
                 inputs.RemoveAll(y => y < 3);
                 return;
@@ -444,11 +460,11 @@ namespace EyeTracker
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
-            if (this.textBox1.InvokeRequired)
+            if (this.InvokeRequired)
             {
                 try
                 {
-                    StringArgReturningVoidDelegate d = new StringArgReturningVoidDelegate(setText);
+                    StringArgReturningVoidDelegate d = new StringArgReturningVoidDelegate(setComm);
                     this.Invoke(d, new object[] { text });
                 }
                 catch (ObjectDisposedException e)
