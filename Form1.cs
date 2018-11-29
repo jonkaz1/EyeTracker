@@ -23,6 +23,9 @@ namespace EyeTracker
         int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000000;        //variables to store eye blinking time
         KeyboardForm keyboardForm = new KeyboardForm();
         SettingsForm settingsForm = new SettingsForm();
+        CalibrationForm calibrationForm;
+        public Calibration calibration = new Calibration();
+
         KeybindingsForm keybindingsForm;
         KeybindingConfigurationForm keybindingConfigurationForm;
 
@@ -54,6 +57,7 @@ namespace EyeTracker
 
 
             keybindingsForm = new KeybindingsForm(this);
+            calibrationForm = new CalibrationForm(this);
             keybindingConfigurationForm = new KeybindingConfigurationForm(this);
 
             mouse.isCursorActive = settingsForm.isGazeOn;
@@ -139,8 +143,8 @@ namespace EyeTracker
             //Bothy stream
             positionss.EyePosition(posti =>
             {
-                if (posti.HasRightEyePosition != true && posti.HasLeftEyePosition != true) BothEyeClosed(false, posti.Timestamp);
-                else BothEyeClosed(true, posti.Timestamp);
+                if (posti.HasRightEyePosition != true && posti.HasLeftEyePosition != true) BothEyeClosed(false, posti.Timestamp); //closed
+                else BothEyeClosed(true, posti.Timestamp); //opened eyes
             });
 
 
@@ -185,8 +189,25 @@ namespace EyeTracker
                 dateB2 = DateTime.Now;
                 var x = dateB2 - dateB1;
                 //if (x.Ticks > 3500000)
-                if (x.Ticks > BothEyeBlinkTime)
+                if (!calibration.isCalibrating)
                 {
+<<<<<<< HEAD
+                    if (x.Ticks > BothEyeBlinkTime)
+                    {
+
+                        inputs.Add(0);
+                        //If we don't expect commands THEN check random inputs for specific line ELSE check if given inputs matches one of commands
+                        //if (fYouVariable != true)
+                        if (x.Ticks > BothEyeBlinkTime * 1.5)
+                            CheckInputs();
+                        //else
+                        //    CheckCommand();
+                    }
+                }
+                else
+                {
+                    calibration.timeList.Add((int)x.Ticks);
+=======
 
                     inputs.Add(0);
                     //If we don't expect commands THEN check random inputs for specific line ELSE check if given inputs matches one of commands
@@ -195,8 +216,8 @@ namespace EyeTracker
                         CheckInputs();
                     //else
                     //    CheckCommand();
+>>>>>>> origin/master
                 }
-
                 bothEyeClosed = false;
                 leftEyeClosed = false;
                 rightEyeClosed = false;
@@ -236,12 +257,25 @@ namespace EyeTracker
             {
                 dateL2 = DateTime.Now;
                 var x = dateL2 - dateL1;
-                //if (x.Ticks > 1000000)
-                if (x.Ticks > leftEyeBlinkTime)
-                    inputs.Add(1);
-                //setText("L" + x.Ticks);
+                if (!calibration.isCalibrating)
+                {
+                    //if (x.Ticks > 1000000)
+                    if (x.Ticks > leftEyeBlinkTime)
+                        inputs.Add(1);
+                    //setText("L" + x.Ticks);
+                }
+                else
+                {
+
+                }
                 leftEyeClosed = false;
             }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            calibrationForm.ShowDialog();
+            calibration.toggleCalinbrating();
         }
 
 
@@ -262,10 +296,17 @@ namespace EyeTracker
             {
                 dateR2 = DateTime.Now;
                 var x = dateR2 - dateR1;
-                //if (x.Ticks > 1000000)
-                if (x.Ticks > rightEyeBlinkTime)
-                    inputs.Add(2);
-                //setText("R" + x.Ticks);
+                if (!calibration.isCalibrating)
+                {
+                    //if (x.Ticks > 1000000)
+                    if (x.Ticks > rightEyeBlinkTime)
+                        inputs.Add(2);
+                    //setText("R" + x.Ticks);
+                }
+                else
+                {
+
+                }
                 rightEyeClosed = false;
             }
         }
@@ -478,7 +519,6 @@ namespace EyeTracker
         {
             settingsForm.ShowDialog();
         }
-
     }
 
     //Cancer 3rd stage

@@ -78,8 +78,9 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(34, 20);
-            this.toolStripMenuItem1.Text = "???";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(66, 20);
+            this.toolStripMenuItem1.Text = "Calibrate";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // settingsToolStripMenuItem
             // 
@@ -94,21 +95,21 @@
             // keybindingsToolStripMenuItem
             // 
             this.keybindingsToolStripMenuItem.Name = "keybindingsToolStripMenuItem";
-            this.keybindingsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.keybindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.keybindingsToolStripMenuItem.Text = "Keybindings";
             this.keybindingsToolStripMenuItem.Click += new System.EventHandler(this.keybindingsToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // editKeybindingsToolStripMenuItem
             // 
             this.editKeybindingsToolStripMenuItem.Name = "editKeybindingsToolStripMenuItem";
-            this.editKeybindingsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.editKeybindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.editKeybindingsToolStripMenuItem.Text = "Edit Keybindings";
             this.editKeybindingsToolStripMenuItem.Click += new System.EventHandler(this.editKeybindingsToolStripMenuItem_Click);
             // 
@@ -124,13 +125,13 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "View Help";
             // 
             // aboutEyeTrackerToolStripMenuItem
             // 
             this.aboutEyeTrackerToolStripMenuItem.Name = "aboutEyeTrackerToolStripMenuItem";
-            this.aboutEyeTrackerToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.aboutEyeTrackerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutEyeTrackerToolStripMenuItem.Text = "About EyeTracker";
             // 
             // timer1
