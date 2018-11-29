@@ -21,7 +21,7 @@ namespace EyeTracker
         List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
         bool fYouVariable = false;          //Check if next inputs are for commands
-        int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000;        //variables to store eye blinking time
+        //int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000;        //variables to store eye blinking time
         KeyboardForm keyboardForm = new KeyboardForm();
         SettingsForm settingsForm = new SettingsForm();
         CalibrationForm calibrationForm;
@@ -195,13 +195,13 @@ namespace EyeTracker
                 //if (x.Ticks > 3500000)
                 if (!calibration.isCalibrating)
                 {
-                    if (x.Ticks > BothEyeBlinkTime)
+                    if (x.Ticks > calibration.BothEyeBlinkTime)
                     {
 
                         inputs.Add(0);
                         //If we don't expect commands THEN check random inputs for specific line ELSE check if given inputs matches one of commands
                         //if (fYouVariable != true)
-                        if (x.Ticks > BothEyeBlinkTime * 1.5)
+                        if (x.Ticks > calibration.BothEyeBlinkTime * 1.5)
                             CheckInputs();
                         //else
                         //    CheckCommand();
@@ -209,7 +209,14 @@ namespace EyeTracker
                 }
                 else
                 {
-                    calibration.BothEyeTimeList.Add((int)x.Ticks);
+                    if (!calibration.isSecondTime)
+                    {
+                        calibration.BothEyeTimeList.Add((int)x.Ticks);
+                    }
+                    else
+                    {
+                        calibration.BothEyeTimeList2.Add((int)x.Ticks);
+                    }
                 }
                 bothEyeClosed = false;
                 leftEyeClosed = false;
@@ -253,13 +260,20 @@ namespace EyeTracker
                 if (!calibration.isCalibrating)
                 {
                     //if (x.Ticks > 1000000)
-                    if (x.Ticks > leftEyeBlinkTime)
+                    if (x.Ticks > calibration.leftEyeBlinkTime)
                         inputs.Add(1);
                     //setText("L" + x.Ticks);
                 }
                 else
                 {
-                    calibration.leftEyeTimeList.Add((int)x.Ticks);
+                    if (!calibration.isSecondTime)
+                    {
+                        calibration.leftEyeTimeList.Add((int)x.Ticks);
+                    }
+                    else
+                    {
+                        calibration.leftEyeTimeList2.Add((int)x.Ticks);
+                    }
                 }
                 leftEyeClosed = false;
             }
@@ -292,13 +306,20 @@ namespace EyeTracker
                 if (!calibration.isCalibrating)
                 {
                     //if (x.Ticks > 1000000)
-                    if (x.Ticks > rightEyeBlinkTime)
+                    if (x.Ticks > calibration.rightEyeBlinkTime)
                         inputs.Add(2);
                     //setText("R" + x.Ticks);
                 }
                 else
                 {
-                    calibration.rightEyeTimeList.Add((int)x.Ticks);
+                    if (!calibration.isSecondTime)
+                    {
+                        calibration.rightEyeTimeList.Add((int)x.Ticks);
+                    }
+                    else
+                    {
+                        calibration.rightEyeTimeList2.Add((int)x.Ticks);
+                    }
                 }
                 rightEyeClosed = false;
             }
