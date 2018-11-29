@@ -16,11 +16,15 @@ namespace EyeTracker
     {
         delegate void StringArgReturningVoidDelegate(string text);
         DateTime dateL1, dateL2, dateR1, dateR2, dateB1, dateB2;          //variables to track dates of left/right/both last opened/closed eye
-        List<int> commands = new List<int>();   //0 - Both are closed;   1- Left is closed;    2 - Right is closed
+        List<string> commands = new List<string>();   //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
         bool fYouVariable = false;          //Check if next inputs are for commands
+<<<<<<< HEAD
         int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000;        //variables to store eye blinking time
+=======
+        int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000000;        //variables to store eye blinking time
+>>>>>>> origin/master
         KeyboardForm keyboardForm = new KeyboardForm();
         SettingsForm settingsForm = new SettingsForm();
         CalibrationForm calibrationForm;
@@ -62,15 +66,19 @@ namespace EyeTracker
 
             mouse.isCursorActive = settingsForm.isGazeOn;
 
-            commands.Add(110); 
-            commands.Add(010);
-            commands.Add(000);
-            commands.Add(110);
-            commands.Add(220);
-            commands.Add(120);
-            commands.Add(210);
-            commands.Add(100); //Left click
-            commands.Add(200); //Right click
+
+
+            readCommandFile();
+
+            //commands.Add("110"); 
+            //commands.Add("010");
+            //commands.Add("000");
+            //commands.Add("110");
+            //commands.Add("220");
+            //commands.Add("120");
+            //commands.Add("210");
+            //commands.Add("100"); //Left click
+            //commands.Add("200"); //Right click
 
 
             var positionss = host.Streams.CreateEyePositionStream();
@@ -80,6 +88,26 @@ namespace EyeTracker
 
         }
 
+        #region read/write
+
+        private void readCommandFile()
+        {
+            // Example #2
+            // Read each line of the file into a string array. Each element
+            // of the array is one line of the file.
+            string[] lines = System.IO.File.ReadAllLines(@".\Commands.txt");
+
+            // Display the file contents by using a foreach loop.
+            foreach (string line in lines)
+            {
+                string[] spl = line.Split(',');
+                commands.Add(spl[1]);
+            }
+
+        }
+
+
+        #endregion
 
 
         //public void LoadComponent(MouseClickForm component)
@@ -286,7 +314,7 @@ namespace EyeTracker
         /// <summary>
         /// Checks inputs for specific commands TO DO STUFF
         /// </summary>
-        private void CheckCommand(int c)
+        private void CheckCommand(string c)
         {
             //if (c.Equals(commands[0]))
             //{
@@ -390,6 +418,13 @@ namespace EyeTracker
         //To receive command from others Forms
         public void SendCommand(int command)
         {
+            string c = command.ToString();
+            CheckCommand(c);
+        }
+
+        //To receive command from others Forms
+        public void SendCommand(string command)
+        {
             CheckCommand(command);
         }
 
@@ -405,7 +440,7 @@ namespace EyeTracker
             {
                 return;
             }
-            int c = inputs[x - 3] * 100 + inputs[x - 2] * 10 + inputs[x - 1];
+            string c = string.Format("[0]", inputs[x - 3] * 100 + inputs[x - 2] * 10 + inputs[x - 1]);
             CheckCommand(c);
             //if (inputs[0] == commands[0][0] && inputs[1] == commands[0][1] && inputs[2] == commands[0][2])
             //{
