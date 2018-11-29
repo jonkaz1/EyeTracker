@@ -23,6 +23,7 @@ namespace EyeTracker
         private void CalibrationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             form1.calibration.isCalibrating = false;
+            form1.calibration.calculateAverageBlinkTime();
         }
     }
 }
