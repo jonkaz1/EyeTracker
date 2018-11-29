@@ -46,5 +46,41 @@ namespace EyeTracker.Properties {
                 this["autoStartGaze"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4500000")]
+        public long rEyeBlinkMax {
+            get {
+                return ((long)(this["rEyeBlinkMax"]));
+            }
+            set {
+                this["rEyeBlinkMax"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4500000")]
+        public long lEyeBlinkMax {
+            get {
+                return ((long)(this["lEyeBlinkMax"]));
+            }
+            set {
+                this["lEyeBlinkMax"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000000")]
+        public long bEyeBlinkMax {
+            get {
+                return ((long)(this["bEyeBlinkMax"]));
+            }
+            set {
+                this["bEyeBlinkMax"] = value;
+            }
+        }
     }
 }

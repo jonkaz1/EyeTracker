@@ -8,5 +8,14 @@
     <Setting Name="autoStartGaze" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="rEyeBlinkMax" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">4500000</Value>
+    </Setting>
+    <Setting Name="lEyeBlinkMax" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">4500000</Value>
+    </Setting>
+    <Setting Name="bEyeBlinkMax" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">2000000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
