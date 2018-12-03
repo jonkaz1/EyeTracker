@@ -21,7 +21,7 @@ namespace EyeTracker
         {
             InitializeComponent();
 
-            copyBindingButtonGroup = new KeyConfigurationButtonGroup(commands[1], copyBindingFirstAction, copyBindingSecondAction, copyBindingThirdAction);
+            copyBindingButtonGroup = new KeyConfigurationButtonGroup(commands[1], copyBindingFirstAction, copyBindingSecondAction, copyBindingThirdAction, copyBindingLabel);
             this.form = form;
         }
 

@@ -17,28 +17,31 @@ namespace EyeTracker
         private readonly ComboBox FirstComboBox;
         private readonly ComboBox SecondComboBox;
         private readonly ComboBox ThirdComboBox;
+        private readonly Label NameLabel;
 
         private bool beingEdited = false;
 
         public Command Command { get; private set; }
 
-        public KeyConfigurationButtonGroup(Command command, ComboBox firstComboBox, ComboBox secondComboBox, ComboBox thirdComboBox)
+        public KeyConfigurationButtonGroup(Command command, ComboBox firstComboBox, ComboBox secondComboBox, ComboBox thirdComboBox, Label nameLabel)
         {
             Command = command;
             FirstComboBox = firstComboBox;
             SecondComboBox = secondComboBox;
             ThirdComboBox = thirdComboBox;
+            NameLabel = nameLabel;
 
             BindComboBoxSource(firstComboBox, eyeStates);
             BindComboBoxSource(secondComboBox, eyeStates);
             BindComboBoxSource(thirdComboBox, eyeStates);
 
-            ImportActions();
+            ImportValues();
             DisableEditing();
         }
 
-        private void ImportActions()
+        private void ImportValues()
         {
+            NameLabel.Text = Command.Name;
             FirstComboBox.SelectedValue = (int)char.GetNumericValue(Command.Actions[0]); 
             SecondComboBox.SelectedValue = (int)char.GetNumericValue(Command.Actions[1]);
             ThirdComboBox.SelectedValue = (int)char.GetNumericValue(Command.Actions[2]);
