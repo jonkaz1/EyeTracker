@@ -6,30 +6,47 @@ namespace EyeTracker
 {
     internal class KeyConfigurationButtonGroup
     {
-        private readonly ComboBox firstComboBox;
-        private readonly ComboBox secondComboBox;
-        private readonly ComboBox thirdComboBox;
+        private static SortedDictionary<string, int> eyeStates = new SortedDictionary<string, int>
+{
+  {"LR", 0},
+  {"L", 1},
+  {"R", 2}
+};
 
-        private bool beingEdited;
 
-        public KeyConfigurationButtonGroup(ComboBox firstComboBox, ComboBox secondComboBox, ComboBox thirdComboBox)
+        private readonly ComboBox FirstComboBox;
+        private readonly ComboBox SecondComboBox;
+        private readonly ComboBox ThirdComboBox;
+
+        private bool beingEdited = false;
+
+        public Command Command { get; private set; }
+
+        public KeyConfigurationButtonGroup(Command command, ComboBox firstComboBox, ComboBox secondComboBox, ComboBox thirdComboBox)
         {
-            this.firstComboBox = firstComboBox;
-            this.secondComboBox = secondComboBox;
-            this.thirdComboBox = thirdComboBox;
-            beingEdited = false;
+            Command = command;
+            FirstComboBox = firstComboBox;
+            SecondComboBox = secondComboBox;
+            ThirdComboBox = thirdComboBox;
+
+            BindComboBoxSource(firstComboBox, eyeStates);
+            BindComboBoxSource(secondComboBox, eyeStates);
+            BindComboBoxSource(thirdComboBox, eyeStates);
+
+            ImportActions();
+            DisableEditing();
         }
 
-        public void LoadCommand(int command)
+        private void ImportActions()
         {
-            firstComboBox.SelectedValue = GetIntArray(command)[0];
-            secondComboBox.SelectedValue = GetIntArray(command)[1];
-            thirdComboBox.SelectedValue = GetIntArray(command)[2];
+            FirstComboBox.SelectedValue = (int)char.GetNumericValue(Command.Actions[0]); 
+            SecondComboBox.SelectedValue = (int)char.GetNumericValue(Command.Actions[1]);
+            ThirdComboBox.SelectedValue = (int)char.GetNumericValue(Command.Actions[2]);
         }
 
-        public int getCommand()
+        private string ExportActions()
         {
-            return ((int)firstComboBox.SelectedValue * 100) + ((int)secondComboBox.SelectedValue * 10) + (int)thirdComboBox.SelectedValue;
+            return string.Format("{0}{1}{2}", FirstComboBox.SelectedValue, SecondComboBox.SelectedValue, ThirdComboBox.SelectedValue);
         }
 
         private int[] GetIntArray(int num)
@@ -55,7 +72,8 @@ namespace EyeTracker
             {
                 SaveChanges();
                 DisableEditing();
-            } else
+            }
+            else
             {
                 EnableEditing();
             }
@@ -64,21 +82,30 @@ namespace EyeTracker
 
         private void EnableEditing()
         {
-            firstComboBox.Enabled = true;
-            secondComboBox.Enabled = true;
-            thirdComboBox.Enabled = true;
+            FirstComboBox.Enabled = true;
+            SecondComboBox.Enabled = true;
+            ThirdComboBox.Enabled = true;
         }
 
         private void DisableEditing()
         {
-            firstComboBox.Enabled = false;
-            secondComboBox.Enabled = false;
-            thirdComboBox.Enabled = false;
+            FirstComboBox.Enabled = false;
+            SecondComboBox.Enabled = false;
+            ThirdComboBox.Enabled = false;
         }
 
         private void SaveChanges()
         {
-            throw new NotImplementedException();
+            Command.Actions = ExportActions();
         }
+
+
+        private void BindComboBoxSource(ComboBox comboBox, SortedDictionary<string, int> keyValuePairs)
+        {
+            comboBox.DataSource = new BindingSource(keyValuePairs, null);
+            comboBox.DisplayMember = "Key";
+            comboBox.ValueMember = "Value";
+        }
+
     }
 }

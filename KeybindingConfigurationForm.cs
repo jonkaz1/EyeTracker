@@ -12,32 +12,17 @@ namespace EyeTracker
 {
     public partial class KeybindingConfigurationForm : Form
     {
-        public static SortedDictionary<string, int> eyeStates = new SortedDictionary<string, int>
-{
-  {"L", 1},
-  {"R", 2},
-  {"LR", 3}
-};
+       
 
         Form1 form;
         KeyConfigurationButtonGroup copyBindingButtonGroup;
 
-        public KeybindingConfigurationForm(Form1 form)
+        public KeybindingConfigurationForm(Form1 form, List<Command> commands)
         {
             InitializeComponent();
-            BindComboBoxSource(copyBindingFirstAction, eyeStates);
-            BindComboBoxSource(copyBindingSecondAction, eyeStates);
-            BindComboBoxSource(copyBindingThirdAction, eyeStates);
-           
 
+            copyBindingButtonGroup = new KeyConfigurationButtonGroup(commands[1], copyBindingFirstAction, copyBindingSecondAction, copyBindingThirdAction);
             this.form = form;
-        }
-
-        private void BindComboBoxSource(ComboBox comboBox, SortedDictionary<string, int> keyValuePairs)
-        {
-            comboBox.DataSource = new BindingSource(keyValuePairs, null);
-            comboBox.DisplayMember = "Key";
-            comboBox.ValueMember = "Value";
         }
 
         private void copyBindingButton_Click(object sender, EventArgs e)

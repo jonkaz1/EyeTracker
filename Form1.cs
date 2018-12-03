@@ -61,7 +61,7 @@ namespace EyeTracker
 
             keybindingsForm = new KeybindingsForm(this, commands);
             calibrationForm = new CalibrationForm(this);
-            keybindingConfigurationForm = new KeybindingConfigurationForm(this);
+            keybindingConfigurationForm = new KeybindingConfigurationForm(this, commands);
 
             mouse.isCursorActive = settingsForm.isGazeOn;
 
