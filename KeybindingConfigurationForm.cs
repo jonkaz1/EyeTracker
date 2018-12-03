@@ -20,6 +20,8 @@ namespace EyeTracker
 };
 
         Form1 form;
+        KeyConfigurationButtonGroup copyBindingButtonGroup;
+
         public KeybindingConfigurationForm(Form1 form)
         {
             InitializeComponent();
@@ -36,6 +38,18 @@ namespace EyeTracker
             comboBox.DataSource = new BindingSource(keyValuePairs, null);
             comboBox.DisplayMember = "Key";
             comboBox.ValueMember = "Value";
+        }
+
+        private void copyBindingButton_Click(object sender, EventArgs e)
+        {
+            copyBindingButtonGroup.ToggleMode();
+            if (copyBindingButtonGroup.InEditMode())
+            {
+                copyBindingButton.Text = "Save";
+            } else
+            {
+                copyBindingButton.Text = "Edit";
+            }
         }
     }
 }

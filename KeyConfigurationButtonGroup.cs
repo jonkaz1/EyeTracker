@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace EyeTracker
@@ -9,11 +10,14 @@ namespace EyeTracker
         private readonly ComboBox secondComboBox;
         private readonly ComboBox thirdComboBox;
 
+        private bool beingEdited;
+
         public KeyConfigurationButtonGroup(ComboBox firstComboBox, ComboBox secondComboBox, ComboBox thirdComboBox)
         {
             this.firstComboBox = firstComboBox;
             this.secondComboBox = secondComboBox;
             this.thirdComboBox = thirdComboBox;
+            beingEdited = false;
         }
 
         public void LoadCommand(int command)
@@ -38,6 +42,43 @@ namespace EyeTracker
             }
             listOfInts.Reverse();
             return listOfInts.ToArray();
+        }
+
+        internal bool InEditMode()
+        {
+            return beingEdited;
+        }
+
+        public void ToggleMode()
+        {
+            if (beingEdited)
+            {
+                SaveChanges();
+                DisableEditing();
+            } else
+            {
+                EnableEditing();
+            }
+            beingEdited = !beingEdited;
+        }
+
+        private void EnableEditing()
+        {
+            firstComboBox.Enabled = true;
+            secondComboBox.Enabled = true;
+            thirdComboBox.Enabled = true;
+        }
+
+        private void DisableEditing()
+        {
+            firstComboBox.Enabled = false;
+            secondComboBox.Enabled = false;
+            thirdComboBox.Enabled = false;
+        }
+
+        private void SaveChanges()
+        {
+            throw new NotImplementedException();
         }
     }
 }

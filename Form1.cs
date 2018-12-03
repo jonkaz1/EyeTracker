@@ -16,11 +16,13 @@ namespace EyeTracker
     {
         delegate void StringArgReturningVoidDelegate(string text);
         DateTime dateL1, dateL2, dateR1, dateR2, dateB1, dateB2;          //variables to track dates of left/right/both last opened/closed eye
-        List<List<string>> commands = new List<List<string>>();   //0 - Both are closed;   1- Left is closed;    2 - Right is closed
+        List<Command> commands = new List<Command>();   //0 - Both are closed;   1- Left is closed;    2 - Right is closed
        // List<string> commandsName = new List<string>();
         List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
         bool fYouVariable = false;          //Check if next inputs are for commands
+   
+
         //int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000;        //variables to store eye blinking time
         KeyboardForm keyboardForm = new KeyboardForm();
         SettingsForm settingsForm = new SettingsForm();
@@ -98,12 +100,8 @@ namespace EyeTracker
             {               
                 List<string> x = new List<string>();
                 string[] spl = line.Split(',');
-                x.Add(spl[0]);
-                x.Add(spl[1]);
-                x.Add(spl[2]);
-                commands.Add(x);
+                commands.Add(new Command(spl[0], spl[1], spl[2]));
             }
-
         }
 
 
@@ -338,7 +336,7 @@ namespace EyeTracker
         private void CheckCommand(string c)
         {
             
-            if (c.Equals(commands[0][1]))
+            if (c.Equals(commands[0].Actions))
             {
                 setText("Left mouse click");
                 mouse.saveCursorPosition();
@@ -351,7 +349,7 @@ namespace EyeTracker
                 return;
             }
 
-            if (c.Equals(commands[1][1]))
+            if (c.Equals(commands[1].Actions))
             {
                 setText("Right mouse click");
                 mouse.saveCursorPosition();
@@ -363,7 +361,7 @@ namespace EyeTracker
                 return;
             }
 
-            if (c.Equals(commands[2][1]))
+            if (c.Equals(commands[2].Actions[1]))
             {
                 fYouVariable = false;
                 if (Application.OpenForms["KeyboardForm"] == null)
@@ -376,9 +374,9 @@ namespace EyeTracker
 
             for (int i = 3; i < commands.Count(); i++)
             {
-                if (c.Equals(commands[i][1]))
+                if (c.Equals(commands[i].Actions))
                 {
-                    setComm(commands[i][2]);
+                    InvokeCommand(commands[i].ResultingAction);
                 }
             }
 
@@ -461,6 +459,12 @@ namespace EyeTracker
             CheckCommand(command);
         }
 
+        //To receive command from others Forms
+        public void SendCommand(Command command)
+        {
+            CheckCommand(command.Actions);
+        }
+
 
 
         /// <summary>
@@ -512,7 +516,7 @@ namespace EyeTracker
             }
         }
 
-        private void setComm(string text)
+        private void InvokeCommand(string text)
         {
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
@@ -521,7 +525,7 @@ namespace EyeTracker
             {
                 try
                 {
-                    StringArgReturningVoidDelegate d = new StringArgReturningVoidDelegate(setComm);
+                    StringArgReturningVoidDelegate d = new StringArgReturningVoidDelegate(InvokeCommand);
                     this.Invoke(d, new object[] { text });
                 }
                 catch (ObjectDisposedException e)
