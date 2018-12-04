@@ -61,6 +61,12 @@
     <Compile Include="CalibrationForm.Designer.cs">
       <DependentUpon>CalibrationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClickConfirmationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClickConfirmationForm.Designer.cs">
+      <DependentUpon>ClickConfirmationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Command.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -82,12 +88,6 @@
     </Compile>
     <Compile Include="KeyConfigurationButtonGroup.cs" />
     <Compile Include="Mouse.cs" />
-    <Compile Include="MouseClickForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MouseClickForm.Designer.cs">
-      <DependentUpon>MouseClickForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
@@ -106,6 +106,9 @@
     <EmbeddedResource Include="CalibrationForm.resx">
       <DependentUpon>CalibrationForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ClickConfirmationForm.resx">
+      <DependentUpon>ClickConfirmationForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -114,9 +117,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="KeybindingsForm.resx">
       <DependentUpon>KeybindingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MouseClickForm.resx">
-      <DependentUpon>MouseClickForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>

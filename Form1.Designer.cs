@@ -41,6 +41,7 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutEyeTrackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,21 +96,21 @@
             // keybindingsToolStripMenuItem
             // 
             this.keybindingsToolStripMenuItem.Name = "keybindingsToolStripMenuItem";
-            this.keybindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.keybindingsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.keybindingsToolStripMenuItem.Text = "Keybindings";
             this.keybindingsToolStripMenuItem.Click += new System.EventHandler(this.keybindingsToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // editKeybindingsToolStripMenuItem
             // 
             this.editKeybindingsToolStripMenuItem.Name = "editKeybindingsToolStripMenuItem";
-            this.editKeybindingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editKeybindingsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.editKeybindingsToolStripMenuItem.Text = "Edit Keybindings";
             this.editKeybindingsToolStripMenuItem.Click += new System.EventHandler(this.editKeybindingsToolStripMenuItem_Click);
             // 
@@ -125,13 +126,13 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.aboutToolStripMenuItem.Text = "View Help";
             // 
             // aboutEyeTrackerToolStripMenuItem
             // 
             this.aboutEyeTrackerToolStripMenuItem.Name = "aboutEyeTrackerToolStripMenuItem";
-            this.aboutEyeTrackerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutEyeTrackerToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.aboutEyeTrackerToolStripMenuItem.Text = "About EyeTracker";
             // 
             // timer1
@@ -139,6 +140,11 @@
             this.timer1.Enabled = true;
             this.timer1.Interval = 25;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // timer2
+            // 
+            this.timer2.Enabled = true;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // Form1
             // 
@@ -175,6 +181,7 @@
         private System.Windows.Forms.ToolStripMenuItem keybindingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editKeybindingsToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 

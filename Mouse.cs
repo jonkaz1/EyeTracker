@@ -16,9 +16,10 @@ namespace EyeTracker
     class Mouse
     {
         //start of import for gaze postion
-        public int posX, posY, cursorX, cursorY;
-        public bool isCursorActive, isMoveSlowly;
-        static Host host = new Host(); 
+        public int posX, posY, cursorX, cursorY, longGazeCount;
+        public bool isCursorActive, isMoveSlowly, isClickActive, isClickActive2, isInSquareAlways;
+        static Host host = new Host();
+        const int constLongGazeABSPosition = 200;
         GazePointDataStream gazePointDataStream = host.Streams.CreateGazePointDataStream(); //changed from var to GazePointDataStream
         //end of import for gaze postion
 
@@ -39,8 +40,12 @@ namespace EyeTracker
             posY = 0;
             cursorX = 0;
             cursorY = 0;
+            longGazeCount = 0;
             isCursorActive = false;
             isMoveSlowly = false;
+            isClickActive = false;
+            isClickActive2 = false;
+            isInSquareAlways = true;
 
             gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; });
             //Cursor.Position = new Point(posX, posY);
@@ -56,16 +61,68 @@ namespace EyeTracker
                 isCursorActive = true;
             }
         }
+        public void ToggleClickActive()
+        {
+            if (isClickActive)
+            {
+                isClickActive = false;
+            }
+            else
+            {
+                isClickActive = true;
+            }
+        }
         public void SetCursorPosition()
         {
             if (isCursorActive)
             {
                 if (isMoveSlowly)
                 {
-                    Cursor.Position = new Point(cursorX, cursorY);
+                    //----------------------------------------------------------------------------
+                    if (isClickActive)
+                    {
+                        if (posX <= Cursor.Position.X + constLongGazeABSPosition && posX >= Cursor.Position.X - constLongGazeABSPosition)
+                        {
+                            if (posY <= Cursor.Position.Y + constLongGazeABSPosition && posY >= Cursor.Position.Y - constLongGazeABSPosition)
+                            {
+                                if (isInSquareAlways)
+                                {
+                                    Cursor.Position = new Point(cursorX, cursorY);
+                                }
+                                else
+                                {
+                                    longGazeCount++;
+                                }
+                            }
+                            else
+                            {
+                                longGazeCount = 0;
+                                isInSquareAlways = false;
+                            }
+                        }
+                        else
+                        {
+                            longGazeCount = 0;
+                            isInSquareAlways = false;
+                        }
+                    }
+                    //----------------------------------------------------------------------------
                 }
                 else
                 {
+                    if (isClickActive)
+                    {
+                        if (posX <= Cursor.Position.X + constLongGazeABSPosition && posX >= Cursor.Position.X - constLongGazeABSPosition)
+                        {
+                            if (posY <= Cursor.Position.Y + constLongGazeABSPosition && posY >= Cursor.Position.Y - constLongGazeABSPosition)
+                            {
+                                longGazeCount++;
+                            }
+                            else longGazeCount = 0;
+                        }
+                        else longGazeCount = 0;
+                    }
+
                     Cursor.Position = new Point(posX, posY);
                 }
             }

@@ -21,7 +21,7 @@ namespace EyeTracker
         List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
         bool fYouVariable = false;          //Check if next inputs are for commands
-   
+        
 
         //int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000;        //variables to store eye blinking time
         KeyboardForm keyboardForm = new KeyboardForm();
@@ -35,10 +35,9 @@ namespace EyeTracker
 
         //start of import for gaze postion
         Mouse mouse = new Mouse();
+        const int constLongGazeTimeTrigger = 2000; //2000 ms
 
-        public delegate void ComponentReadyDelegate(MouseClickForm component);
-        private MouseClickForm _mouseClickForm;
-        //MouseClickForm mouseClickForm = new MouseClickForm();
+        ClickConfirmationForm clickConfirmationForm = new ClickConfirmationForm();
 
         static Host host = new Host();                                  //changed from var to Host
         //end of import for gaze postion
@@ -47,14 +46,6 @@ namespace EyeTracker
         {
 
             InitializeComponent();
-
-
-
-            _mouseClickForm = new MouseClickForm();
-            //ThreadPool.QueueUserWorkItem(o =>
-            //{
-            //    LoadComponent(_mouseClickForm);
-            //});
 
             readCommandFile();
 
@@ -106,23 +97,6 @@ namespace EyeTracker
 
 
         #endregion
-
-
-        //public void LoadComponent(MouseClickForm component)
-        //{
-        //    if (this._mouseClickForm.InvokeRequired)
-        //    {
-        //        ComponentReadyDelegate e = new ComponentReadyDelegate(LoadComponent);
-        //        this.BeginInvoke(e, new object[] { component });
-        //    }
-        //    else
-        //    {
-        //        // The component is used by a UI control
-        //        component.updateLocation();
-        //    }
-        //}
-
-
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -227,16 +201,35 @@ namespace EyeTracker
             if (mouse.isMoveSlowly)
             {
                 mouse.moveCursorSlowly();
-                //_mouseClickForm.updateLocation();
-                //LoadComponent(_mouseClickForm);
             }
             mouse.SetCursorPosition();
-            if (mouse.posX == 0 && mouse.posY == 0)
+        }
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (mouse.isClickActive)
             {
-                mouse.reinitializeGazePoint();
+                if (mouse.isClickActive2)
+                {
+                    if (!mouse.isInSquareAlways)
+                    {
+                        if (mouse.longGazeCount * 25 >= constLongGazeTimeTrigger)
+                        {
+                            //mouse.LeftClick(Cursor.Position.X, Cursor.Position.Y);4
+                            clickConfirmationForm.Show(); //transparent form, not working
+                            mouse.isClickActive = false; //clicking ends
+                        }
+                    }
+                    //mouse.isClickActive = false;
+                }
+                else if (mouse.longGazeCount * 25 >= constLongGazeTimeTrigger)
+                {
+                    mouse.saveCursorPosition(); //starts moving slowly
+                    mouse.isClickActive2 = true;//starts to wait for real click
+                    mouse.longGazeCount = 0;    //resets trigger count
+                }
+
             }
         }
-
 
         /// <summary>
         /// Method to calculate time left eye was closed
@@ -339,11 +332,14 @@ namespace EyeTracker
             if (c.Equals(commands[0].Actions))
             {
                 setText("Left mouse click");
-                mouse.saveCursorPosition();
-                //_mouseClickForm.Show(); transparent form, not working
+                //mouse.isCursorActive = true;
+
+                //mouse.ToggleCursorGaze();
+                //mouse.isClickActive = true;
 
 
-                //mouse.LeftClick(Cursor.Position.X, Cursor.Position.Y);
+
+                clickConfirmationForm.Show();
 
                 inputs.RemoveAll(y => y < 3);
                 return;
@@ -352,8 +348,12 @@ namespace EyeTracker
             if (c.Equals(commands[1].Actions))
             {
                 setText("Right mouse click");
-                mouse.saveCursorPosition();
-                //_mouseClickForm.Show(); transparent form, not working
+                //mouse.isCursorActive = true;
+                mouse.ToggleCursorGaze();
+                mouse.isClickActive = true;
+
+
+                //clickConfirmationForm.Show(); 
 
                 //mouse.RightClick(mouse.posX, mouse.posY);
 
@@ -453,6 +453,8 @@ namespace EyeTracker
             CheckCommand(c);
         }
 
+        
+
         //To receive command from others Forms
         public void SendCommand(string command)
         {
@@ -477,7 +479,7 @@ namespace EyeTracker
             {
                 return;
             }
-            string c = string.Format("{0}{1}{2}", inputs[x - 3] * 100, inputs[x - 2] * 10, inputs[x - 1]);
+            string c = string.Format("{0}{1}{2}", inputs[x - 3], inputs[x - 2], inputs[x - 1]);
             CheckCommand(c);
             //if (inputs[0] == commands[0][0] && inputs[1] == commands[0][1] && inputs[2] == commands[0][2])
             //{
