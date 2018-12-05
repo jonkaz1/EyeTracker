@@ -16,8 +16,9 @@ namespace EyeTracker
     class Mouse
     {
         //start of import for gaze postion
-        public int posX, posY, cursorX, cursorY, longGazeCount;
-        public bool isCursorActive, isMoveSlowly, isClickActive, isClickActive2, isInSquareAlways;
+        public int posX, posY, cursorX, cursorY, longGazeCount, resetCount;
+        public bool isCursorActive/*sets any cursor postion*/, isMoveSlowly, isClickActive, isClickActive2, isInSquareAlways;
+        public bool isLeftClick, isRightClick;
         static Host host = new Host();
         const int constLongGazeABSPosition = 200;
         GazePointDataStream gazePointDataStream = host.Streams.CreateGazePointDataStream(); //changed from var to GazePointDataStream
@@ -41,14 +42,16 @@ namespace EyeTracker
             cursorX = 0;
             cursorY = 0;
             longGazeCount = 0;
+            resetCount = 0;
             isCursorActive = false;
             isMoveSlowly = false;
             isClickActive = false;
             isClickActive2 = false;
             isInSquareAlways = true;
+            isLeftClick = false;
+            isRightClick = false;
 
             gazePointDataStream.GazePoint((gazePointX, gazePointY, _) => { posX = (int)gazePointX; posY = (int)gazePointY; });
-            //Cursor.Position = new Point(posX, posY);
         }
         public void ToggleCursorGaze()
         {
@@ -61,16 +64,18 @@ namespace EyeTracker
                 isCursorActive = true;
             }
         }
-        public void ToggleClickActive()
+        
+        public void ResetDefault()
         {
-            if (isClickActive)
-            {
-                isClickActive = false;
-            }
-            else
-            {
-                isClickActive = true;
-            }
+            isCursorActive = false;
+            isMoveSlowly = false;
+            isClickActive = false;
+            isClickActive2 = false;
+            isInSquareAlways = true;
+            longGazeCount = 0;
+            resetCount = 0;
+            isLeftClick = false;
+            isRightClick = false;
         }
         public void SetCursorPosition()
         {

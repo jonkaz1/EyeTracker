@@ -210,16 +210,27 @@ namespace EyeTracker
             {
                 if (mouse.isClickActive2)
                 {
-                    if (!mouse.isInSquareAlways)
+                    if (!mouse.isInSquareAlways)    //if gaze moved out of square
                     {
-                        if (mouse.longGazeCount * 25 >= constLongGazeTimeTrigger)
+                        mouse.resetCount++;
+                        if (mouse.isLeftClick)
                         {
-                            //mouse.LeftClick(Cursor.Position.X, Cursor.Position.Y);4
-                            clickConfirmationForm.Show(); //transparent form, not working
-                            mouse.isClickActive = false; //clicking ends
+                            mouse.LeftClick(Cursor.Position.X, Cursor.Position.Y);
+                            mouse.ResetDefault();
                         }
+                        else if (mouse.isRightClick)
+                        {
+                            mouse.RightClick(Cursor.Position.X, Cursor.Position.Y);
+                            mouse.ResetDefault();
+                        }
+                        else if (mouse.resetCount >= 100)//100ms * 100 = 10secs
+                        {
+                            mouse.ResetDefault();
+                        }
+                        //if (mouse.longGazeCount * 25 >= constLongGazeTimeTrigger)   //waits some time
+                        //{
+                        //}
                     }
-                    //mouse.isClickActive = false;
                 }
                 else if (mouse.longGazeCount * 25 >= constLongGazeTimeTrigger)
                 {
@@ -332,14 +343,7 @@ namespace EyeTracker
             if (c.Equals(commands[0].Actions))
             {
                 setText("Left mouse click");
-                //mouse.isCursorActive = true;
-
-                //mouse.ToggleCursorGaze();
-                //mouse.isClickActive = true;
-
-
-
-                clickConfirmationForm.Show();
+                mouse.isLeftClick = true;
 
                 inputs.RemoveAll(y => y < 3);
                 return;
@@ -348,26 +352,28 @@ namespace EyeTracker
             if (c.Equals(commands[1].Actions))
             {
                 setText("Right mouse click");
-                //mouse.isCursorActive = true;
-                mouse.ToggleCursorGaze();
-                mouse.isClickActive = true;
-
-
-                //clickConfirmationForm.Show(); 
-
-                //mouse.RightClick(mouse.posX, mouse.posY);
+                mouse.isRightClick = true;
 
                 inputs.RemoveAll(y => y < 3);
                 return;
             }
 
-            if (c.Equals(commands[2].Actions[1]))
+            if (c.Equals(commands[2].Actions))   //starts click procedure
             {
+                mouse.ResetDefault();
+                setText("Starts click procedure");
+                mouse.isCursorActive = true; //lets cursor move
+                mouse.isClickActive = true;  //lets gaze time counting and slow movement and timer 2
+
+
+                /* Keyboard command code
                 fYouVariable = false;
                 if (Application.OpenForms["KeyboardForm"] == null)
                     setText("0");
                 else
                     keyboardForm.Close();
+                */
+
                 inputs.RemoveAll(y => y < 3);
                 return;
             }
@@ -376,6 +382,7 @@ namespace EyeTracker
             {
                 if (c.Equals(commands[i].Actions))
                 {
+                    mouse.ResetDefault();
                     InvokeCommand(commands[i].ResultingAction);
                 }
             }
