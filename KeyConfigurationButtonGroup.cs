@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace EyeTracker
 {
-    internal class KeyConfigurationButtonGroup
+    internal class KeyBindingUIElementGroup
     {
         private static SortedDictionary<string, int> eyeStates = new SortedDictionary<string, int>
 {
@@ -18,18 +17,21 @@ namespace EyeTracker
         private readonly ComboBox SecondComboBox;
         private readonly ComboBox ThirdComboBox;
         private readonly Label NameLabel;
+        private readonly Button SubmitButton;
 
         private bool beingEdited = false;
 
         public Command Command { get; private set; }
 
-        public KeyConfigurationButtonGroup(Command command, ComboBox firstComboBox, ComboBox secondComboBox, ComboBox thirdComboBox, Label nameLabel)
+
+        public KeyBindingUIElementGroup(Command command, Label label, ComboBox firstComboBox, ComboBox secondComboBox, ComboBox thirdComboBox, Button button)
         {
             Command = command;
             FirstComboBox = firstComboBox;
             SecondComboBox = secondComboBox;
             ThirdComboBox = thirdComboBox;
-            NameLabel = nameLabel;
+            NameLabel = label;
+            SubmitButton = button;
 
             BindComboBoxSource(firstComboBox, eyeStates);
             BindComboBoxSource(secondComboBox, eyeStates);
@@ -37,12 +39,31 @@ namespace EyeTracker
 
             ImportValues();
             DisableEditing();
+
+            if (command == null)
+            {
+                HideAll();
+            }
+        }
+
+        private void HideAll()
+        {
+            FirstComboBox.Hide();
+            FirstComboBox.Enabled = false;
+            SecondComboBox.Hide();
+            SecondComboBox.Enabled = false;
+            ThirdComboBox.Hide();
+            ThirdComboBox.Enabled = false;
+            NameLabel.Hide();
+            NameLabel.Enabled = false;
+            SubmitButton.Hide();
+            SubmitButton.Enabled = false;
         }
 
         private void ImportValues()
         {
             NameLabel.Text = Command.Name;
-            FirstComboBox.SelectedValue = (int)char.GetNumericValue(Command.Actions[0]); 
+            FirstComboBox.SelectedValue = (int)char.GetNumericValue(Command.Actions[0]);
             SecondComboBox.SelectedValue = (int)char.GetNumericValue(Command.Actions[1]);
             ThirdComboBox.SelectedValue = (int)char.GetNumericValue(Command.Actions[2]);
         }
@@ -75,12 +96,15 @@ namespace EyeTracker
             {
                 SaveChanges();
                 DisableEditing();
+                SubmitButton.Text = "Edit";
+                beingEdited = false;
             }
             else
             {
                 EnableEditing();
+                SubmitButton.Text = "Save";
+                beingEdited = true;
             }
-            beingEdited = !beingEdited;
         }
 
         private void EnableEditing()
@@ -100,6 +124,7 @@ namespace EyeTracker
         private void SaveChanges()
         {
             Command.Actions = ExportActions();
+            Form1.GetInstance().SaveCommandsToFile();
         }
 
 

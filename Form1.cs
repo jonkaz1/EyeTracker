@@ -1,45 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tobii.Interaction;
-using System.Threading;
 
 namespace EyeTracker
 {
     public partial class Form1 : Form
     {
-        delegate void StringArgReturningVoidDelegate(string text);
-        DateTime dateL1, dateL2, dateR1, dateR2, dateB1, dateB2;          //variables to track dates of left/right/both last opened/closed eye
-        List<Command> commands = new List<Command>();   //0 - Both are closed;   1- Left is closed;    2 - Right is closed
-       // List<string> commandsName = new List<string>();
-        List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
+        private static Form1 form;
+        private delegate void StringArgReturningVoidDelegate(string text);
+
+        private DateTime dateL1, dateL2, dateR1, dateR2, dateB1, dateB2;          //variables to track dates of left/right/both last opened/closed eye
+        private List<Command> commands = new List<Command>();   //0 - Both are closed;   1- Left is closed;    2 - Right is closed
+                                                                // List<string> commandsName = new List<string>();
+
+        private List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
-        bool fYouVariable = false;          //Check if next inputs are for commands
-        
+        private bool fYouVariable = false;          //Check if next inputs are for commands
+
 
         //int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000;        //variables to store eye blinking time
-        KeyboardForm keyboardForm = new KeyboardForm();
-        SettingsForm settingsForm = new SettingsForm();
-        CalibrationForm calibrationForm;
+        private KeyboardForm keyboardForm = new KeyboardForm();
+        private SettingsForm settingsForm = new SettingsForm();
+        private CalibrationForm calibrationForm;
         public Calibration calibration = new Calibration();
-
-        KeybindingsForm keybindingsForm;
-        KeybindingConfigurationForm keybindingConfigurationForm;
+        private KeybindingsForm keybindingsForm;
+        private KeybindingConfigurationForm keybindingConfigurationForm;
 
 
         //start of import for gaze postion
-        Mouse mouse = new Mouse();
-        const int constLongGazeTimeTrigger = 2000; //2000 ms
+        private Mouse mouse = new Mouse();
+        private const int constLongGazeTimeTrigger = 2000; //2000 ms
 
-        ClickConfirmationForm clickConfirmationForm = new ClickConfirmationForm();
-
-        static Host host = new Host();                                  //changed from var to Host
+        private ClickConfirmationForm clickConfirmationForm = new ClickConfirmationForm();
+        private static Host host = new Host();                                  //changed from var to Host
         //end of import for gaze postion
 
         public Form1()
@@ -47,7 +43,7 @@ namespace EyeTracker
 
             InitializeComponent();
 
-            readCommandFile();
+            ReadCommandFile();
 
 
             keybindingsForm = new KeybindingsForm(this, commands);
@@ -74,25 +70,56 @@ namespace EyeTracker
             // var ts = new Thread(() => waitingForEyeInput(positionss));
             //ts.Start();
             waitingForEyeInput(positionss);
+            form = this;
 
+        }
+
+        public static Form1 GetInstance()
+        {
+            return form;
         }
 
         #region read/write
 
-        private void readCommandFile()
+        public void SaveCommandsToFile()
+        {
+            List<string> commandLines = new List<string>();
+
+            foreach (Command c in commands)
+            {
+                commandLines.Add(string.Format("{0},{1},{2}", c.Name, c.Actions, c.ResultingAction));
+            }
+            File.WriteAllLines(@".\Commands.txt", commandLines);
+        }
+
+        private void ReadCommandFile()
         {
             // Example #2
             // Read each line of the file into a string array. Each element
             // of the array is one line of the file.
-            string[] lines = System.IO.File.ReadAllLines(@".\Commands.txt");
+            string[] lines = File.ReadAllLines(@".\Commands.txt");
 
             // Display the file contents by using a foreach loop.
             foreach (string line in lines)
-            {               
+            {
                 List<string> x = new List<string>();
                 string[] spl = line.Split(',');
                 commands.Add(new Command(spl[0], spl[1], spl[2]));
             }
+        }
+        internal List<Command> GetDefaultCommands()
+        {
+            string[] lines = File.ReadAllLines(@".\Commands.default.txt");
+            commands.Clear();
+            // Display the file contents by using a foreach loop.
+            foreach (string line in lines)
+            {
+                List<string> x = new List<string>();
+                string[] spl = line.Split(',');
+                commands.Add(new Command(spl[0], spl[1], spl[2]));
+            }
+
+            return commands;
         }
 
 
@@ -109,7 +136,7 @@ namespace EyeTracker
                 button1.Text = "Control mouse with eyes";
             }
             mouse.ToggleCursorGaze();
-            
+
         }
 
 
@@ -119,24 +146,42 @@ namespace EyeTracker
             //Bothy stream
             positionss.EyePosition(posti =>
             {
-                if (posti.HasRightEyePosition != true && posti.HasLeftEyePosition != true) BothEyeClosed(false, posti.Timestamp); //closed
-                else BothEyeClosed(true, posti.Timestamp); //opened eyes
+                if (posti.HasRightEyePosition != true && posti.HasLeftEyePosition != true)
+                {
+                    BothEyeClosed(false, posti.Timestamp); //closed
+                }
+                else
+                {
+                    BothEyeClosed(true, posti.Timestamp); //opened eyes
+                }
             });
 
 
             //Lefty stream
             positionss.EyePosition(posti =>
             {
-                if (posti.HasLeftEyePosition != true && posti.HasRightEyePosition == true) LeftEyeClosed(false, posti.Timestamp);
-                else LeftEyeClosed(true, posti.Timestamp);
+                if (posti.HasLeftEyePosition != true && posti.HasRightEyePosition == true)
+                {
+                    LeftEyeClosed(false, posti.Timestamp);
+                }
+                else
+                {
+                    LeftEyeClosed(true, posti.Timestamp);
+                }
             });
 
 
             //Righty stream
             positionss.EyePosition(posti =>
             {
-                if (posti.HasRightEyePosition != true && posti.HasLeftEyePosition == true) RightEyeClosed(false, posti.Timestamp);
-                else RightEyeClosed(true, posti.Timestamp);
+                if (posti.HasRightEyePosition != true && posti.HasLeftEyePosition == true)
+                {
+                    RightEyeClosed(false, posti.Timestamp);
+                }
+                else
+                {
+                    RightEyeClosed(true, posti.Timestamp);
+                }
             });
         }
 
@@ -174,7 +219,9 @@ namespace EyeTracker
                         //If we don't expect commands THEN check random inputs for specific line ELSE check if given inputs matches one of commands
                         //if (fYouVariable != true)
                         if (x.Ticks > calibration.BothEyeBlinkTime * 1.5)
+                        {
                             CheckInputs();
+                        }
                         //else
                         //    CheckCommand();
                     }
@@ -263,7 +310,9 @@ namespace EyeTracker
                 {
                     //if (x.Ticks > 1000000)
                     if (x.Ticks > calibration.leftEyeBlinkTime)
+                    {
                         inputs.Add(1);
+                    }
                     //setText("L" + x.Ticks);
                 }
                 else
@@ -309,7 +358,9 @@ namespace EyeTracker
                 {
                     //if (x.Ticks > 1000000)
                     if (x.Ticks > calibration.rightEyeBlinkTime)
+                    {
                         inputs.Add(2);
+                    }
                     //setText("R" + x.Ticks);
                 }
                 else
@@ -339,7 +390,7 @@ namespace EyeTracker
         /// </summary>
         private void CheckCommand(string c)
         {
-            
+
             if (c.Equals(commands[0].Actions))
             {
                 setText("Left mouse click");
@@ -460,7 +511,7 @@ namespace EyeTracker
             CheckCommand(c);
         }
 
-        
+
 
         //To receive command from others Forms
         public void SendCommand(string command)
@@ -518,9 +569,14 @@ namespace EyeTracker
             else
             {
                 if (text == "0")
+                {
                     keyboardForm.Show();
+                }
                 else
+                {
                     this.textBox1.Text = text;
+                }
+
                 Console.WriteLine(text);
             }
         }
@@ -549,7 +605,7 @@ namespace EyeTracker
         }
 
         private void keybindingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {            
+        {
             keybindingsForm.ShowDialog();
         }
 
@@ -563,10 +619,10 @@ namespace EyeTracker
     //Cancer 3rd stage
     public class cancer
     {
-        double closedTime;
-        double opendTime;
-        char eye;
-        bool x = false;
+        private double closedTime;
+        private double opendTime;
+        private char eye;
+        private bool x = false;
 
         public void runOutOfIdeas(double dateTime, char eye)
         {
