@@ -423,23 +423,30 @@ namespace EyeTracker
 
         private void DisplayExecutedCommand(String commandName)
         {
-            ExecutedCommandLabel.Text = commandName;
-            ExecutedCommandLabel.Show();
+            ExecutedCommandLabel.Invoke((MethodInvoker)(() =>
+            {
+                ExecutedCommandLabel.Text = commandName;
+                ExecutedCommandLabel.Show();
+            }));
             commandWasDisplayed = true;
         }
 
         private void HideExecutedCommandLabel()
         {
-            ExecutedCommandLabel.Hide();
-
+            ExecutedCommandLabel.Invoke((MethodInvoker)(() =>
+            {
+                ExecutedCommandLabel.Hide();
+            }));
         }
 
         private void HideActionLabels()
         {
-
-            Action1Label.Hide();
-            Action2Label.Hide();
-            Action3Label.Hide();
+            Action1Label.Invoke((MethodInvoker)(() =>
+            {
+                Action1Label.Hide();
+                Action2Label.Hide();
+                Action3Label.Hide();
+            }));
         }
 
         private void AddInput(int eyeState)
@@ -454,18 +461,35 @@ namespace EyeTracker
             inputs.Add(eyeState);
             if (inputs.Count == 1)
             {
-                Action1Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
-                Action1Label.Show();
+                string key = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
+
+                Action1Label.Invoke((MethodInvoker)(() =>
+                {
+                    Action1Label.Text = key;
+                    Action1Label.Show();
+                }));
             }
             else if (inputs.Count == 2)
             {
-                Action2Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
-                Action2Label.Show();
+                string key = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
+
+                Action2Label.Invoke((MethodInvoker)(() =>
+                {
+                    Action2Label.Text = key;
+                    Action2Label.Show();
+                }));
+
             }
             else if (inputs.Count == 3)
             {
-                Action3Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
-                Action3Label.Show();
+
+                string key = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
+
+                Action3Label.Invoke((MethodInvoker)(() =>
+                {
+                    Action3Label.Text = key;
+                    Action3Label.Show();
+                }));
             }
 
         }
