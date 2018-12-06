@@ -24,6 +24,7 @@ namespace EyeTracker
 
         private List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
+        private bool commandWasDisplayed = false;
 
 
         //int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000;        //variables to store eye blinking time
@@ -49,7 +50,7 @@ namespace EyeTracker
             InitializeComponent();
 
             ReadCommandFile();
-            HideExecutedCommandLabels();
+            HideExecutedCommandLabel();
 
 
             keybindingsForm = new KeybindingsForm(this, commands);
@@ -419,11 +420,17 @@ namespace EyeTracker
         {
             ExecutedCommandLabel.Text = commandName;
             ExecutedCommandLabel.Show();
+            commandWasDisplayed = true;
         }
 
-        private void HideExecutedCommandLabels()
+        private void HideExecutedCommandLabel()
         {
             ExecutedCommandLabel.Hide();
+
+        }
+
+        private void HideActionLabels()
+        {
 
             Action1Label.Hide();
             Action2Label.Hide();
@@ -432,16 +439,25 @@ namespace EyeTracker
 
         private void AddInput(int eyeState)
         {
+            if (commandWasDisplayed)
+            {
+                HideActionLabels();
+                HideExecutedCommandLabel();
+                commandWasDisplayed = false;
+            }
+
             inputs.Add(eyeState);
-            if(inputs.Count == 1)
+            if (inputs.Count == 1)
             {
                 Action1Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
                 Action1Label.Show();
-            } else if (inputs.Count == 2)
+            }
+            else if (inputs.Count == 2)
             {
                 Action2Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
                 Action2Label.Show();
-            } else if (inputs.Count == 3)
+            }
+            else if (inputs.Count == 3)
             {
                 Action3Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
                 Action3Label.Show();
@@ -481,7 +497,6 @@ namespace EyeTracker
         /// </summary>
         private void CheckInputs()
         {
-            HideExecutedCommandLabels();
             int x = inputs.Count;
             if (x < 3)
             {
