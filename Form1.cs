@@ -426,7 +426,7 @@ namespace EyeTracker
 
         private void DisplayExecutedCommand(String commandName)
         {
-            SetLabelText(ExecutedCommandLabel, commandName;
+            SetLabelText(ExecutedCommandLabel, commandName);
             ExecutedCommandLabel.Show();
             commandWasDisplayed = true;
         }
