@@ -1,6 +1,6 @@
 ﻿LeftClick,100,NULL
 RightClick,200,NULL
-Klaviaturos iskvietimas,110,NULL
+Sekti pelę,110,NULL
 Lango pakeitimas,010,^%{TAB}
 Kalbos pakeitimas,000,+%
 Atgal,110,%{LEFT}

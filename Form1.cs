@@ -400,9 +400,13 @@ namespace EyeTracker
                 mouse.isCursorActive = true; //lets cursor move
                 mouse.isClickActive = true;  //lets gaze time counting and slow movement and timer 2
             }
+            else if (c.Equals(commands[3].Actions))
+            {
+                keybindingsForm.ShowDialog();
+            }
             else
             {
-                for (int i = 3; i < commands.Count(); i++)
+                for (int i = 4; i < commands.Count(); i++)
                 {
                     if (c.Equals(commands[i].Actions))
                     {
