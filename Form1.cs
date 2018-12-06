@@ -51,6 +51,7 @@ namespace EyeTracker
 
             ReadCommandFile();
             HideExecutedCommandLabel();
+            HideActionLabels();
 
 
             keybindingsForm = new KeybindingsForm(this, commands);
@@ -239,14 +240,6 @@ namespace EyeTracker
             }
         }
 
-        private void SetLabelText(Label label, string text)
-        {
-            label.BeginInvoke((MethodInvoker)delegate ()
-            {
-                label.Text = text;
-            });
-        }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (mouse.isMoveSlowly)
@@ -424,9 +417,9 @@ namespace EyeTracker
             ClearInputs();
         }
 
-        private void DisplayExecutedCommand(String commandName)
+        private void DisplayExecutedCommand(string commandName)
         {
-            SetLabelText(ExecutedCommandLabel, commandName);
+            ExecutedCommandLabel.Text =commandName;
             ExecutedCommandLabel.Show();
             commandWasDisplayed = true;
         }
@@ -457,17 +450,17 @@ namespace EyeTracker
             inputs.Add(eyeState);
             if (inputs.Count == 1)
             {
-                SetLabelText(Action1Label, EyeStates.FirstOrDefault(x => x.Value == eyeState).Key);
+                Action1Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
                 Action1Label.Show();
             }
             else if (inputs.Count == 2)
             {
-                SetLabelText(Action2Label, EyeStates.FirstOrDefault(x => x.Value == eyeState).Key);
+                Action2Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
                 Action2Label.Show();
             }
             else if (inputs.Count == 3)
             {
-                SetLabelText(Action3Label, EyeStates.FirstOrDefault(x => x.Value == eyeState).Key);
+                Action3Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
                 Action3Label.Show();
             }
 
