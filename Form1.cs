@@ -385,7 +385,11 @@ namespace EyeTracker
         /// </summary>
         private void CheckCommand(string c)
         {
-            if (c.Equals(commands[0].Actions))
+            if (c.Equals(commands[3].Actions))
+            {
+                keybindingsForm.ShowDialog();
+            }
+            else if (c.Equals(commands[0].Actions))
             {
                 DisplayExecutedCommand("Left mouse click");
                 mouse.isLeftClick = true;
@@ -401,10 +405,6 @@ namespace EyeTracker
                 DisplayExecutedCommand("Starts click procedure");
                 mouse.isCursorActive = true; //lets cursor move
                 mouse.isClickActive = true;  //lets gaze time counting and slow movement and timer 2
-            }
-            else if (c.Equals(commands[3].Actions))
-            {
-                keybindingsForm.ShowDialog();
             }
             else
             {
