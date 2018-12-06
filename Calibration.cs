@@ -152,7 +152,7 @@ namespace EyeTracker
 
             leftEyeBlinkTime = leftMax * 2;
             rightEyeBlinkTime = rightMax * 2;
-            BothEyeBlinkTime = (BothMax + BothMax2) / 2;
+            BothEyeBlinkTime = (BothMax + BothMax2) / 4 * 3;
 
 
             Console.WriteLine("L{0}  R{1}  B{2}", leftEyeTimeList.Count, rightEyeTimeList.Count, BothEyeTimeList.Count);

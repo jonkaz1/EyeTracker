@@ -222,12 +222,9 @@ namespace EyeTracker
                     {
 
                         inputs.Add(0);
+                        CheckInputs();
                         //If we don't expect commands THEN check random inputs for specific line ELSE check if given inputs matches one of commands
                         //if (fYouVariable != true)
-                        if (x.Ticks > calibration.BothEyeBlinkTime * 1.5)
-                        {
-                            CheckInputs();
-                        }
                         //else
                         //    CheckCommand();
                     }
@@ -314,12 +311,11 @@ namespace EyeTracker
                 var x = dateL2 - dateL1;
                 if (!calibration.isCalibrating)
                 {
-                    //if (x.Ticks > 1000000)
                     if (x.Ticks > calibration.leftEyeBlinkTime)
                     {
                         inputs.Add(1);
+                        CheckInputs();
                     }
-                    //setText("L" + x.Ticks);
                 }
                 else
                 {
@@ -362,12 +358,11 @@ namespace EyeTracker
                 var x = dateR2 - dateR1;
                 if (!calibration.isCalibrating)
                 {
-                    //if (x.Ticks > 1000000)
                     if (x.Ticks > calibration.rightEyeBlinkTime)
                     {
                         inputs.Add(2);
+                        CheckInputs();
                     }
-                    //setText("R" + x.Ticks);
                 }
                 else
                 {
@@ -396,13 +391,14 @@ namespace EyeTracker
         /// </summary>
         private void CheckCommand(string c)
         {
+            setText(c);
 
             if (c.Equals(commands[0].Actions))
             {
                 setText("Left mouse click");
                 mouse.isLeftClick = true;
 
-                inputs.RemoveAll(y => y < 3);
+                inputs.Clear();
                 return;
             }
 
@@ -411,7 +407,9 @@ namespace EyeTracker
                 setText("Right mouse click");
                 mouse.isRightClick = true;
 
-                inputs.RemoveAll(y => y < 3);
+                inputs.Clear();
+
+                //inputs.RemoveAll(y => y < 3);
                 return;
             }
 
@@ -430,8 +428,8 @@ namespace EyeTracker
                 else
                     keyboardForm.Close();
                 */
-
-                inputs.RemoveAll(y => y < 3);
+                inputs.Clear();
+                //inputs.RemoveAll(y => y < 3);
                 return;
             }
 
@@ -443,6 +441,8 @@ namespace EyeTracker
                     InvokeCommand(commands[i].ResultingAction);
                 }
             }
+            inputs.Clear();
+
 
 
             //if (c.Equals(commands[1]))
