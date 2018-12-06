@@ -239,6 +239,14 @@ namespace EyeTracker
             }
         }
 
+        private void SetLabelText(Label label, string text)
+        {
+            label.BeginInvoke((MethodInvoker)delegate ()
+            {
+                label.Text = text;
+            });
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (mouse.isMoveSlowly)
@@ -418,7 +426,7 @@ namespace EyeTracker
 
         private void DisplayExecutedCommand(String commandName)
         {
-            ExecutedCommandLabel.Text = commandName;
+            SetLabelText(ExecutedCommandLabel, commandName;
             ExecutedCommandLabel.Show();
             commandWasDisplayed = true;
         }
@@ -449,17 +457,17 @@ namespace EyeTracker
             inputs.Add(eyeState);
             if (inputs.Count == 1)
             {
-                Action1Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
+                SetLabelText(Action1Label, EyeStates.FirstOrDefault(x => x.Value == eyeState).Key);
                 Action1Label.Show();
             }
             else if (inputs.Count == 2)
             {
-                Action2Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
+                SetLabelText(Action2Label, EyeStates.FirstOrDefault(x => x.Value == eyeState).Key);
                 Action2Label.Show();
             }
             else if (inputs.Count == 3)
             {
-                Action3Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
+                SetLabelText(Action3Label, EyeStates.FirstOrDefault(x => x.Value == eyeState).Key);
                 Action3Label.Show();
             }
 
@@ -468,6 +476,7 @@ namespace EyeTracker
         private void ClearInputs()
         {
             inputs.Clear();
+            HideActionLabels();
         }
 
 
