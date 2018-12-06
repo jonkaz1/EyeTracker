@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace EyeTracker
@@ -17,6 +18,7 @@ namespace EyeTracker
         private readonly ComboBox SecondComboBox;
         private readonly ComboBox ThirdComboBox;
         private readonly Label NameLabel;
+        private readonly Label ErrorLabel;
         private readonly Button SubmitButton;
 
         private bool beingEdited = false;
@@ -24,13 +26,14 @@ namespace EyeTracker
         public Command Command { get; private set; }
 
 
-        public KeyBindingUIElementGroup(Command command, Label label, ComboBox firstComboBox, ComboBox secondComboBox, ComboBox thirdComboBox, Button button)
+        public KeyBindingUIElementGroup(Command command, Label errorLabel, Label nameLabel, ComboBox firstComboBox, ComboBox secondComboBox, ComboBox thirdComboBox, Button button)
         {
             Command = command;
             FirstComboBox = firstComboBox;
             SecondComboBox = secondComboBox;
             ThirdComboBox = thirdComboBox;
-            NameLabel = label;
+            ErrorLabel = errorLabel;
+            NameLabel = nameLabel;
             SubmitButton = button;
 
             BindComboBoxSource(firstComboBox, eyeStates);
@@ -94,6 +97,10 @@ namespace EyeTracker
         {
             if (beingEdited)
             {
+                if (!ChangesAreValid())
+                {
+                    return;
+                }
                 SaveChanges();
                 DisableEditing();
                 SubmitButton.Text = "Edit";
@@ -105,6 +112,23 @@ namespace EyeTracker
                 SubmitButton.Text = "Save";
                 beingEdited = true;
             }
+        }
+
+        private bool ChangesAreValid()
+        {
+            Command.Actions = ExportActions();
+            List<Command> commands = Form1.GetInstance().GetCurrentCommands();
+            foreach(Command command in commands)
+            {
+                if(command.Actions.CompareTo(Command.Actions) == 0 && command.Name.CompareTo(Command.Name) != 0)
+                {
+                    ErrorLabel.Text = string.Format("Command \"{0}\" has the same action combination as \"{1}\".", command.Name, Command.Name);
+                    ErrorLabel.Show();
+                    return false;
+                } 
+            }
+            ErrorLabel.Hide();
+            return true;
         }
 
         private void EnableEditing()
@@ -123,7 +147,7 @@ namespace EyeTracker
 
         private void SaveChanges()
         {
-            Command.Actions = ExportActions();
+            
             Form1.GetInstance().SaveCommandsToFile();
         }
 

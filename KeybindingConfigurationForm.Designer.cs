@@ -83,6 +83,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.RestoreDefaultsButton = new System.Windows.Forms.Button();
+            this.ErrorLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -860,11 +861,24 @@
             this.RestoreDefaultsButton.UseVisualStyleBackColor = true;
             this.RestoreDefaultsButton.Click += new System.EventHandler(this.RestoreDefaultsButton_Click);
             // 
+            // ErrorLabel
+            // 
+            this.ErrorLabel.AutoSize = true;
+            this.ErrorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ErrorLabel.ForeColor = System.Drawing.Color.Red;
+            this.ErrorLabel.Location = new System.Drawing.Point(87, 158);
+            this.ErrorLabel.Name = "ErrorLabel";
+            this.ErrorLabel.Size = new System.Drawing.Size(85, 16);
+            this.ErrorLabel.TabIndex = 9;
+            this.ErrorLabel.Text = "Error Label";
+            this.ErrorLabel.Visible = false;
+            // 
             // KeybindingConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(956, 630);
+            this.Controls.Add(this.ErrorLabel);
             this.Controls.Add(this.RestoreDefaultsButton);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label18);
@@ -937,5 +951,6 @@
         private System.Windows.Forms.ComboBox Row9Action3;
         private System.Windows.Forms.Button Row9Button;
         private System.Windows.Forms.Button RestoreDefaultsButton;
+        private System.Windows.Forms.Label ErrorLabel;
     }
 }

@@ -107,6 +107,7 @@ namespace EyeTracker
                 commands.Add(new Command(spl[0], spl[1], spl[2]));
             }
         }
+        
         internal List<Command> GetDefaultCommands()
         {
             string[] lines = File.ReadAllLines(@".\Commands.default.txt");
@@ -124,6 +125,11 @@ namespace EyeTracker
 
 
         #endregion
+
+        public List<Command> GetCurrentCommands()
+        {
+            return commands;
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {

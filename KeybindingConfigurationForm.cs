@@ -44,11 +44,11 @@ namespace EyeTracker
         {
             if (commands.Count >= index)
             {
-                return new KeyBindingUIElementGroup(commands[index], label, action1, action2, action3, button);
+                return new KeyBindingUIElementGroup(commands[index], ErrorLabel, label, action1, action2, action3, button);
             }
             else
             {
-                return new KeyBindingUIElementGroup(null, label, action1, action2, action3, button);
+                return new KeyBindingUIElementGroup(null, ErrorLabel, label, action1, action2, action3, button);
             }
         }
 
@@ -86,7 +86,7 @@ namespace EyeTracker
         {
             row7ButtonGroup.ToggleMode();
         }
-  
+
         private void Row8Button_Click(object sender, EventArgs e)
         {
             row8ButtonGroup.ToggleMode();
