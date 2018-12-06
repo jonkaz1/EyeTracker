@@ -417,9 +417,9 @@ namespace EyeTracker
             ClearInputs();
         }
 
-        private void DisplayExecutedCommand(string commandName)
+        private void DisplayExecutedCommand(String commandName)
         {
-            ExecutedCommandLabel.Text =commandName;
+            ExecutedCommandLabel.Text = commandName;
             ExecutedCommandLabel.Show();
             commandWasDisplayed = true;
         }
