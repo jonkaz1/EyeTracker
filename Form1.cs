@@ -385,21 +385,21 @@ namespace EyeTracker
         /// </summary>
         private void CheckCommand(string c)
         {
-            if (c.Equals(commands[3].Actions))
+            if (c.Equals(commands[0].Actions))
             {
                 keybindingsForm.ShowDialog();
             }
-            else if (c.Equals(commands[0].Actions))
+            else if (c.Equals(commands[1].Actions))
             {
                 DisplayExecutedCommand("Left mouse click");
                 mouse.isLeftClick = true;
             }
-            else if (c.Equals(commands[1].Actions))
+            else if (c.Equals(commands[2].Actions))
             {
                 DisplayExecutedCommand("Right mouse click");
                 mouse.isRightClick = true;
             }
-            else if (c.Equals(commands[2].Actions))   //starts click procedure
+            else if (c.Equals(commands[3].Actions))   //starts click procedure
             {
                 mouse.ResetDefault();
                 DisplayExecutedCommand("Starts click procedure");
