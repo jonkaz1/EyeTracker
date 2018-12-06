@@ -6,14 +6,6 @@ namespace EyeTracker
 {
     internal class KeyBindingUIElementGroup
     {
-        private static SortedDictionary<string, int> eyeStates = new SortedDictionary<string, int>
-{
-  {"LR", 0},
-  {"L", 1},
-  {"R", 2}
-};
-
-
         private readonly ComboBox FirstComboBox;
         private readonly ComboBox SecondComboBox;
         private readonly ComboBox ThirdComboBox;
@@ -36,9 +28,9 @@ namespace EyeTracker
             NameLabel = nameLabel;
             SubmitButton = button;
 
-            BindComboBoxSource(firstComboBox, eyeStates);
-            BindComboBoxSource(secondComboBox, eyeStates);
-            BindComboBoxSource(thirdComboBox, eyeStates);
+            BindComboBoxSource(firstComboBox, Form1.EyeStates);
+            BindComboBoxSource(secondComboBox, Form1.EyeStates);
+            BindComboBoxSource(thirdComboBox, Form1.EyeStates);
 
             ImportValues();
             DisableEditing();

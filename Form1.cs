@@ -10,6 +10,12 @@ namespace EyeTracker
     public partial class Form1 : Form
     {
         private static Form1 form;
+        public static SortedDictionary<string, int> EyeStates = new SortedDictionary<string, int>
+{
+  {"LR", 0},
+  {"L", 1},
+  {"R", 2}
+};
         private delegate void StringArgReturningVoidDelegate(string text);
 
         private DateTime dateL1, dateL2, dateR1, dateR2, dateB1, dateB2;          //variables to track dates of left/right/both last opened/closed eye
@@ -18,7 +24,6 @@ namespace EyeTracker
 
         private List<int> inputs = new List<int>();                 //0 - Both are closed;   1- Left is closed;    2 - Right is closed
         private bool leftEyeClosed, rightEyeClosed, bothEyeClosed;        //variables to track whether eye is opened/closed
-        private bool fYouVariable = false;          //Check if next inputs are for commands
 
 
         //int leftEyeBlinkTime, rightEyeBlinkTime, BothEyeBlinkTime = 10000;        //variables to store eye blinking time
@@ -44,6 +49,7 @@ namespace EyeTracker
             InitializeComponent();
 
             ReadCommandFile();
+            HideExecutedCommandLabels();
 
 
             keybindingsForm = new KeybindingsForm(this, commands);
@@ -53,22 +59,8 @@ namespace EyeTracker
             mouse.isCursorActive = settingsForm.isGazeOn;
 
 
-
-
-            //commands.Add("110"); 
-            //commands.Add("010");
-            //commands.Add("000");
-            //commands.Add("110");
-            //commands.Add("220");
-            //commands.Add("120");
-            //commands.Add("210");
-            //commands.Add("100"); //Left click
-            //commands.Add("200"); //Right click
-
-
             var positionss = host.Streams.CreateEyePositionStream();
-            // var ts = new Thread(() => waitingForEyeInput(positionss));
-            //ts.Start();
+
             waitingForEyeInput(positionss);
             form = this;
 
@@ -107,7 +99,7 @@ namespace EyeTracker
                 commands.Add(new Command(spl[0], spl[1], spl[2]));
             }
         }
-        
+
         internal List<Command> GetDefaultCommands()
         {
             string[] lines = File.ReadAllLines(@".\Commands.default.txt");
@@ -221,7 +213,7 @@ namespace EyeTracker
                     if (x.Ticks > calibration.BothEyeBlinkTime)
                     {
 
-                        inputs.Add(0);
+                        AddInput(0);
                         CheckInputs();
                         //If we don't expect commands THEN check random inputs for specific line ELSE check if given inputs matches one of commands
                         //if (fYouVariable != true)
@@ -313,7 +305,7 @@ namespace EyeTracker
                 {
                     if (x.Ticks > calibration.leftEyeBlinkTime)
                     {
-                        inputs.Add(1);
+                        AddInput(1);
                         CheckInputs();
                     }
                 }
@@ -360,7 +352,7 @@ namespace EyeTracker
                 {
                     if (x.Ticks > calibration.rightEyeBlinkTime)
                     {
-                        inputs.Add(2);
+                        AddInput(2);
                         CheckInputs();
                     }
                 }
@@ -391,122 +383,75 @@ namespace EyeTracker
         /// </summary>
         private void CheckCommand(string c)
         {
-            setText(c);
-
             if (c.Equals(commands[0].Actions))
             {
-                setText("Left mouse click");
+                DisplayExecutedCommand("Left mouse click");
                 mouse.isLeftClick = true;
-
-                inputs.Clear();
-                return;
             }
-
-            if (c.Equals(commands[1].Actions))
+            else if (c.Equals(commands[1].Actions))
             {
-                setText("Right mouse click");
+                DisplayExecutedCommand("Right mouse click");
                 mouse.isRightClick = true;
-
-                inputs.Clear();
-
-                //inputs.RemoveAll(y => y < 3);
-                return;
             }
-
-            if (c.Equals(commands[2].Actions))   //starts click procedure
+            else if (c.Equals(commands[2].Actions))   //starts click procedure
             {
                 mouse.ResetDefault();
-                setText("Starts click procedure");
+                DisplayExecutedCommand("Starts click procedure");
                 mouse.isCursorActive = true; //lets cursor move
                 mouse.isClickActive = true;  //lets gaze time counting and slow movement and timer 2
-
-
-                /* Keyboard command code
-                fYouVariable = false;
-                if (Application.OpenForms["KeyboardForm"] == null)
-                    setText("0");
-                else
-                    keyboardForm.Close();
-                */
-                inputs.Clear();
-                //inputs.RemoveAll(y => y < 3);
-                return;
             }
-
-            for (int i = 3; i < commands.Count(); i++)
+            else
             {
-                if (c.Equals(commands[i].Actions))
+                for (int i = 3; i < commands.Count(); i++)
                 {
-                    mouse.ResetDefault();
-                    InvokeCommand(commands[i].ResultingAction);
+                    if (c.Equals(commands[i].Actions))
+                    {
+                        mouse.ResetDefault();
+                        DisplayExecutedCommand(commands[i].Name);
+                        InvokeCommand(commands[i].ResultingAction);
+                    }
                 }
             }
+            ClearInputs();
+        }
+
+        private void DisplayExecutedCommand(String commandName)
+        {
+            ExecutedCommandLabel.Text = commandName;
+            ExecutedCommandLabel.Show();
+        }
+
+        private void HideExecutedCommandLabels()
+        {
+            ExecutedCommandLabel.Hide();
+
+            Action1Label.Hide();
+            Action2Label.Hide();
+            Action3Label.Hide();
+        }
+
+        private void AddInput(int eyeState)
+        {
+            inputs.Add(eyeState);
+            if(inputs.Count == 1)
+            {
+                Action1Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
+                Action1Label.Show();
+            } else if (inputs.Count == 2)
+            {
+                Action2Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
+                Action2Label.Show();
+            } else if (inputs.Count == 3)
+            {
+                Action3Label.Text = EyeStates.FirstOrDefault(x => x.Value == eyeState).Key;
+                Action3Label.Show();
+            }
+
+        }
+
+        private void ClearInputs()
+        {
             inputs.Clear();
-
-
-
-            //if (c.Equals(commands[1]))
-            //{
-            //    setComm("^%{TAB}");
-            //    //SendKeys.Send("^%{TAB}");
-            //    //System.Diagnostics.Process process = new System.Diagnostics.Process();
-            //    //System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            //    //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            //    //startInfo.FileName = "cmd.exe";
-            //    //startInfo.Arguments = "alt+tab";
-            //    //process.StartInfo = startInfo;
-            //    //process.Start();
-
-            //    inputs.RemoveAll(y => y < 3);
-            //    return;
-            //}
-
-            //if (c.Equals(commands[2]))
-            //{
-            //    //SendKeys.Send("+%");
-            //    setComm("+%");
-
-            //    inputs.RemoveAll(y => y < 3);
-            //    return;
-            //}
-
-            //if (c.Equals(commands[3]))
-            //{
-            //    //SendKeys.Send("%{LEFT}");
-            //    setComm("%{LEFT}");
-
-            //    inputs.RemoveAll(y => y < 3);
-            //    return;
-            //}
-
-            //if (c.Equals(commands[4]))
-            //{
-            //    //SendKeys.Send("%{RIGHT}");
-            //    setComm("%{RIGHT}");
-
-            //    inputs.RemoveAll(y => y < 3);
-            //    return;
-            //}
-
-            //if (c.Equals(commands[5]))
-            //{
-            //    //SendKeys.Send("^{C}");
-            //    setComm("^{C}");
-
-            //    inputs.RemoveAll(y => y < 3);
-            //    return;
-            //}
-
-            //if (c.Equals(commands[6]))
-            //{
-            //    //SendKeys.Send("^{P}");
-            //    setComm("^{P}");
-
-            //    inputs.RemoveAll(y => y < 3);
-            //    return;
-            //}
-
-
         }
 
 
@@ -516,8 +461,6 @@ namespace EyeTracker
             string c = command.ToString();
             CheckCommand(c);
         }
-
-
 
         //To receive command from others Forms
         public void SendCommand(string command)
@@ -538,6 +481,7 @@ namespace EyeTracker
         /// </summary>
         private void CheckInputs()
         {
+            HideExecutedCommandLabels();
             int x = inputs.Count;
             if (x < 3)
             {
@@ -545,46 +489,6 @@ namespace EyeTracker
             }
             string c = string.Format("{0}{1}{2}", inputs[x - 3], inputs[x - 2], inputs[x - 1]);
             CheckCommand(c);
-            //if (inputs[0] == commands[0][0] && inputs[1] == commands[0][1] && inputs[2] == commands[0][2])
-            //{
-            //    fYouVariable = true;
-            //    setText("Waiting for command");
-            //}
-            //inputs.RemoveAll(x => x < 3);
-        }
-
-
-        //Random metod for testing which eye is visible 
-        private void setText(string text)
-        {
-            // InvokeRequired required compares the thread ID of the
-            // calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (this.textBox1.InvokeRequired)
-            {
-                try
-                {
-                    StringArgReturningVoidDelegate d = new StringArgReturningVoidDelegate(setText);
-                    this.Invoke(d, new object[] { text });
-                }
-                catch (ObjectDisposedException e)
-                {
-                    //If somebody finds me, this poor unloved exception that was thrown to a corner and forgotten, REMEMBER ME!!!
-                }
-            }
-            else
-            {
-                if (text == "0")
-                {
-                    keyboardForm.Show();
-                }
-                else
-                {
-                    this.textBox1.Text = text;
-                }
-
-                Console.WriteLine(text);
-            }
         }
 
         private void InvokeCommand(string text)
@@ -621,31 +525,4 @@ namespace EyeTracker
             settingsForm.ShowDialog();
         }
     }
-
-    //Cancer 3rd stage
-    public class cancer
-    {
-        private double closedTime;
-        private double opendTime;
-        private char eye;
-        private bool x = false;
-
-        public void runOutOfIdeas(double dateTime, char eye)
-        {
-            if (!x)
-            {
-                closedTime = dateTime;
-                this.eye = eye;
-                x = true;
-            }
-            else if (closedTime != null)
-            {
-                opendTime = dateTime;
-                this.eye = eye;
-                x = false;
-            }
-        }
-    }
-
-
 }
