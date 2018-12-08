@@ -50,8 +50,8 @@ namespace EyeTracker
             InitializeComponent();
 
             ReadCommandFile();
-            HideExecutedCommandLabel();
-            HideActionLabels();
+            //HideExecutedCommandLabel();
+            //HideActionLabels();
 
 
             keybindingsForm = new KeybindingsForm(this, commands);
