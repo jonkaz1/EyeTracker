@@ -42,6 +42,8 @@ namespace EyeTracker
 
         private ClickConfirmationForm clickConfirmationForm = new ClickConfirmationForm();
         private static Host host = new Host();                                  //changed from var to Host
+        private bool commandFound;
+
         //end of import for gaze postion
 
         public Form1()
@@ -415,8 +417,17 @@ namespace EyeTracker
                         mouse.ResetDefault();
                         DisplayExecutedCommand(commands[i].Name);
                         InvokeCommand(commands[i].ResultingAction);
+                        commandFound = true;
                     }
                 }
+            }
+            if (!commandFound)
+            {
+                DisplayExecutedCommand("Unknown command");
+            }
+            else
+            {
+                commandFound = false;
             }
             ClearInputs();
         }

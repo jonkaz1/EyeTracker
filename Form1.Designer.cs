@@ -199,10 +199,10 @@
             // ExecutedCommandLabel
             // 
             this.ExecutedCommandLabel.AutoSize = true;
-            this.ExecutedCommandLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ExecutedCommandLabel.Location = new System.Drawing.Point(303, 216);
+            this.ExecutedCommandLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ExecutedCommandLabel.Location = new System.Drawing.Point(298, 212);
             this.ExecutedCommandLabel.Name = "ExecutedCommandLabel";
-            this.ExecutedCommandLabel.Size = new System.Drawing.Size(160, 16);
+            this.ExecutedCommandLabel.Size = new System.Drawing.Size(208, 20);
             this.ExecutedCommandLabel.TabIndex = 10;
             this.ExecutedCommandLabel.Text = "ExecutedCommandLabel";
             // 
