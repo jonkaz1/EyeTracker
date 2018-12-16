@@ -389,17 +389,21 @@ namespace EyeTracker
         {
             if (c.Equals(commands[0].Actions))
             {
+                DisplayExecutedCommand("Open Commands Dialog");
                 keybindingsForm.ShowDialog();
+                commandFound = true;
             }
             else if (c.Equals(commands[1].Actions))
             {
                 DisplayExecutedCommand("Left mouse click");
                 mouse.isLeftClick = true;
+                commandFound = true;
             }
             else if (c.Equals(commands[2].Actions))
             {
                 DisplayExecutedCommand("Right mouse click");
                 mouse.isRightClick = true;
+                commandFound = true;
             }
             else if (c.Equals(commands[3].Actions))   //starts click procedure
             {

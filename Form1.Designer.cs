@@ -155,6 +155,7 @@
             this.Action1Label.Size = new System.Drawing.Size(40, 25);
             this.Action1Label.TabIndex = 3;
             this.Action1Label.Text = "A1";
+            this.Action1Label.Visible = false;
             // 
             // label4
             // 
@@ -185,6 +186,7 @@
             this.Action2Label.Size = new System.Drawing.Size(40, 25);
             this.Action2Label.TabIndex = 8;
             this.Action2Label.Text = "A2";
+            this.Action2Label.Visible = false;
             // 
             // Action3Label
             // 
@@ -195,6 +197,7 @@
             this.Action3Label.Size = new System.Drawing.Size(40, 25);
             this.Action3Label.TabIndex = 9;
             this.Action3Label.Text = "A3";
+            this.Action3Label.Visible = false;
             // 
             // ExecutedCommandLabel
             // 
@@ -205,6 +208,7 @@
             this.ExecutedCommandLabel.Size = new System.Drawing.Size(208, 20);
             this.ExecutedCommandLabel.TabIndex = 10;
             this.ExecutedCommandLabel.Text = "ExecutedCommandLabel";
+            this.ExecutedCommandLabel.Visible = false;
             // 
             // label1
             // 
