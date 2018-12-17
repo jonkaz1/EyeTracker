@@ -409,6 +409,7 @@ namespace EyeTracker
             {
                 mouse.ResetDefault();
                 DisplayExecutedCommand("Starts click procedure");
+                commandFound = true;
                 mouse.isCursorActive = true; //lets cursor move
                 mouse.isClickActive = true;  //lets gaze time counting and slow movement and timer 2
             }
